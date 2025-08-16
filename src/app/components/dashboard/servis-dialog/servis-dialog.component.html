@@ -1,0 +1,59 @@
+<h2 mat-dialog-title>Create a service</h2>
+<mat-dialog-content [formGroup]="servisForm">
+    <div class="first-line-inputs-container">
+        <mat-form-field appearance="outline" class="input-container">
+            <input matInput formControlName="name" class="inputfield" placeholder="Type a name for the service" />
+            @if(servisForm.get('name')?.hasError('required')) {
+            <mat-error>
+                Name is required!
+            </mat-error>
+            } @else if(servisForm.get('name')?.hasError('minLength')) {
+            <mat-error>
+                Service name must have at least 1 character.
+            </mat-error>
+            }
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="input-container">
+            <input matInput formControlName="price" class="inputfield"
+                placeholder="Type the service price. E.g. 1.938,01" type="number" />
+            @if(servisForm.get('price')?.hasError('required')) {
+            <mat-error>
+                Please, input the service price!
+            </mat-error>
+            } @else if(servisForm.get('price')?.hasError('pattern')) {
+            <mat-error>
+                Wrong service price format!
+            </mat-error>
+            }
+        </mat-form-field>
+    </div>
+    <mat-form-field appearance="outline" class="input-container">
+        <mat-select formControlName="units" multiple>
+            @for(unitView of simplifiedUnits; track unitView) {
+                <mat-option [value]="unitView.id">{{unitView.name}}</mat-option>
+            }
+        </mat-select>
+        @if(servisForm.get('units')?.hasError('required')) {
+        <mat-error>
+            Select at least one Unit.
+        </mat-error>
+        }
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="input-container">
+        <textarea matInput formControlName="description" class="inputfield"
+            placeholder="Describe the service"></textarea>
+        @if(servisForm.get('description')?.hasError('required')) {
+        <mat-error>
+            Service description is required.
+        </mat-error>
+        } @else if(servisForm.get('description')?.hasError('minLength')) {
+        <mat-error>
+            Service description must have at least 10 character.
+        </mat-error>
+        }
+    </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button matButton="elevated" (click)="onCancel()">Cancel</button>
+    <button mat-flat-button color="primary" (click)="save()">Save</button>
+</mat-dialog-actions>

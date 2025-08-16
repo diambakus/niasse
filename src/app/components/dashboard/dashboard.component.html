@@ -1,0 +1,30 @@
+<div class="dashboard">
+
+  <div class="dashboard__header">
+    <h2 class="dashboard__title">{{ 'DASHBOARD.TITLE' | translate }}</h2>
+  </div>
+
+  <div class="dashboard__quick_action-buttons">
+    <button class="dashboard__shortcut_button" matMiniFab matTooltip="Create a Service"
+      (click)="dialogCreateServis('1500ms', '500ms')">
+      <mat-icon class="dashboard__action-icon">assignment_add</mat-icon>
+    </button>
+    <button class="dashboard__shortcut_button" matMiniFab matTooltip="Create an Unit"
+      (click)="dialogCreateUnit('1500ms', '500ms')">
+      <mat-icon class="dashboard__action-icon">add_home</mat-icon>
+    </button>
+    <button class="dashboard__shortcut_button" matMiniFab matTooltip="Create an Organization"
+      (click)="dialogCreateOrganization('1500ms', '500ms')">
+      <mat-icon class="dashboard__action-icon">add_home_work</mat-icon>
+    </button>
+  </div>
+
+  <div class="dashboard__applications">
+    <h3>On going applications</h3>
+    <mat-card class="dashboard__card">
+      <mat-card-content class="dashboard__card-content">
+        <app-application-view></app-application-view>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

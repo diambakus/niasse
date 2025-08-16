@@ -1,0 +1,15 @@
+.shortcut_button {
+    background-color: transparent;
+}
+
+.action-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 3rem;
+    width: 3rem;
+    color: #094f1c;
+    :hover {
+        color: #3f51b5;
+    }
+}

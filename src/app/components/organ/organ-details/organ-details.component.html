@@ -1,0 +1,25 @@
+<div class="organisation">
+    <div class="organisation__header">
+        <h1>
+            <button mat-mini-fab [routerLink]="['/organs']">
+                <mat-icon>arrow_back</mat-icon>
+            </button>
+            {{selectedOrgan}}
+        </h1>
+    </div>
+    <div class="organisation__departments-title">
+        <h2 class="organisation__departments-title-text">{{ 'ORGAN.DETAILS.TITLE' | translate }}</h2>
+    </div>
+    <div class="organisation__departments-grid">
+        <div *ngFor="let unit of units">
+            <mat-card class="organisation__department-card">
+                <mat-card-content [routerLink]="['/units', unit.id]" (click)="setUnit(unit)">
+                    <mat-card-title class="organisation__department-title">
+                        <div><mat-icon>apartment</mat-icon></div>
+                        <div class="organisation__department-name">{{unit.name}}</div>
+                    </mat-card-title>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
+</div>

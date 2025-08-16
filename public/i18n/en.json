@@ -1,0 +1,48 @@
+{
+  "TITLE": "make your request",
+  "CHANGE_LANGUAGE_TOOLTIP": "Change language",
+  "WELCOME": {
+    "TITLE": "Here the citizen can request services"
+  },
+  "TOPBAR": {
+    "YOUR_ACCOUNT": "Your Account",
+    "LOGOUT": "Logout",
+    "LOGIN": "Login"
+  },
+  "DASHBOARD": {
+    "TITLE": "Dashboard",
+    "SUBTITLE": "Your recent applications",
+    "REQUEST": "Request Services",
+    "NUMBER": "Number",
+    "CREATE_ON": "Created on",
+    "STATUS": "Status"
+  },
+  "ORGAN": {
+    "TITLE": "Organisations",
+    "DETAILS": {
+      "TITLE": "Departments"
+    }
+  },
+  "SHOPPING_CART": {
+    "TITLE": "Selected service",
+    "SUBTITLE": "Fill in the required fields"
+  },
+  "OFFERED_COMMODITY": {
+    "TITLE": "Services Offered",
+    "NAME": "Name",
+    "PRICE": "Price",
+    "VIEW_DETAILS": "View details",
+    "ADD_TO_CART": "Add to cart",
+    "REMOVE_FROM_CART": "Remove from cart",
+    "SELECT_PAGE": "Select a page"
+  },
+  "PAGINATOR": {
+    "ITEMS_PER_PAGE": "Items per page:",
+    "NEXT_PAGE": "Next page",
+    "PREVIOUS_PAGE": "Previous page",
+    "FIRST_PAGE": "First page",
+    "LAST_PAGE": "First page",
+    "RANGE_LABEL_ZERO": "0 of {{length}}",
+    "RANGE_LABEL": "{{start}} - {{end}} of {{length}}"
+  }
+}

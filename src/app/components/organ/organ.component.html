@@ -1,0 +1,16 @@
+<div class="main-container">
+  <div class="style-title">
+    <h2>{{ 'ORGAN.TITLE' | translate }}</h2>
+  </div>
+
+  <div style="display: flex; justify-content: flex-end;">
+    <button matButton class="style-button" routerLink="create">
+      <mat-icon class="style-button-icon">add</mat-icon>
+      <div>Add organization</div>
+    </button>
+  </div>
+  <div>
+    <ag-grid-angular style="height: 25rem;" [rowData]="rowData" [columnDefs]="colDefs"
+      [gridOptions]="gridOptions" />
+  </div>
+</div>

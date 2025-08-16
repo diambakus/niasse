@@ -1,0 +1,106 @@
+<div class="p-6 space-y-6">
+  <div>
+    <h2 class="text-gray-600 text-xl font-semibold">{{ 'SHOPPING_CART.TITLE' | translate }}: {{ cartItemName }}</h2>
+    <i class="text-gray-500 font-semibold">{{ 'SHOPPING_CART.SUBTITLE' | translate }}</i>
+  </div>
+
+  <div>
+    <mat-stepper labelPosition="bottom" style="background-color: transparent;" [linear]="true" #stepper>
+      <ng-container *ngFor="let step of visibleSteps; let i = index">
+        <ng-container *ngIf="!step.isDoneStep; else doneStep">
+          <mat-step [stepControl]="getForm(i)">
+            <ng-template matStepLabel>{{ step.label }}</ng-template>
+
+            <mat-card class="mt-12 shadow-sm">
+              <form [formGroup]="getForm(i)" class="p-6">
+                <div class="flex flex-wrap -mx-2">
+                  <ng-container *ngFor="let control of step.controls">
+                    <div class="w-full px-2 mb-4" [ngClass]="{
+                        'md:w-1/2': control.colspan === 6,
+                        'md:w-1/3': control.colspan === 4,
+                        'md:w-1/4': control.colspan === 3,
+                        'md:w-full': !control.colspan || control.colspan === 12
+                      }">
+                      <mat-form-field appearance="fill" class="w-full" *ngIf="control.type === 'select'">
+                        <mat-label>{{ control.label }}</mat-label>
+                        <mat-select [formControlName]="control.name" required>
+                          <mat-option *ngFor="let option of control.options" [value]="option.value">
+                            {{ option.label }}
+                          </mat-option>
+                        </mat-select>
+                        <mat-error
+                          *ngIf="getForm(i).get(control.name)?.invalid && (getForm(i).get(control.name)?.touched || getForm(i).get(control.name)?.dirty)">
+                          Select a valid option
+                        </mat-error>
+                      </mat-form-field>
+
+                      <mat-form-field appearance="fill" class="w-full"
+                        *ngIf="control.type !== 'file' && control.type !== 'select'">
+                        <mat-label>{{ control.label }}</mat-label>
+                        <input matInput [type]="control.type" [placeholder]="control.placeholder || ''"
+                          [formControlName]="control.name" required />
+                        <mat-error
+                          *ngIf="getForm(i).get(control.name)?.invalid && (getForm(i).get(control.name)?.touched || getForm(i).get(control.name)?.dirty)">
+                          This field is required
+                        </mat-error>
+                      </mat-form-field>
+
+                      <div class="file-upload field flex justify-center" *ngIf="control.type === 'file'">
+                        <div class="flex flex-col items-center gap-2">
+
+                          <div class="flex items-center gap-2 text-sm text-gray-700"
+                            *ngIf="fileNames[i]?.[control.name]">
+                            <span>{{ fileNames[i][control.name] }}</span>
+                            <button type="button" (click)="removeFile(i, control.name)"
+                              class="text-red-500 hover:text-red-700 bg-transparent m-0" aria-label="Remover arquivo">
+                              <mat-icon fontIcon="close" inline></mat-icon>
+                            </button>
+                          </div>
+
+                          <div *ngIf="!fileNames[i]?.[control.name]" class="flex items-center gap-2">
+                            <button class="m-0" mat-raised-button color="primary" (click)="fileInput.click()" type="button">
+                              Select File
+                            </button>
+                            <input #fileInput type="file" style="display: none" required
+                              (change)="onFileChange($event, i, control.name)" />
+                          </div>
+
+                          <div class="text-sm text-red-600" *ngIf="getForm(i).get(control.name)?.invalid && getForm(i).get(control.name)?.touched">
+                            File is required
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                  </ng-container>
+                </div>
+              </form>
+            </mat-card>
+
+            <div class="flex justify-end mt-4 gap-2">
+              <button class="my-0 btn-custom-color" mat-button matStepperPrevious *ngIf="i > 0">Previous</button>
+              <button class="m-0" mat-raised-button color="primary" matStepperNext (click)="goToNextStep(i, stepper)"
+                *ngIf="i < visibleSteps.length - 1">
+                Next
+              </button>
+            </div>
+          </mat-step>
+        </ng-container>
+
+        <ng-template #doneStep>
+          <mat-step>
+            <ng-template matStepLabel>{{ step.label }}</ng-template>
+            <div class="text-center my-4">
+              <p>You have completed all steps!</p>
+            </div>
+            <div class="flex justify-end gap-2">
+              <button class="my-0 btn-custom-color" mat-button matStepperPrevious>Previous</button>
+              <button class="my-0" mat-raised-button color="primary" (click)="submit()">Submit</button>
+              <button class="m-0" mat-raised-button color="accent" (click)="resetStepper(stepper)">Reset</button>
+            </div>
+          </mat-step>
+        </ng-template>
+      </ng-container>
+    </mat-stepper>
+  </div>
+</div>

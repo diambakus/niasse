@@ -1,0 +1,48 @@
+{
+  "TITLE": "haz tu solicitud",
+  "CHANGE_LANGUAGE_TOOLTIP": "Cambiar idioma",
+  "WELCOME": {
+    "TITLE": "Aquí el ciudadano puede solicitar servicios"
+  },
+  "TOPBAR": {
+    "YOUR_ACCOUNT": "Tu Cuenta",
+    "LOGOUT": "Salir",
+    "LOGIN": "Iniciar sesión"
+  },
+  "DASHBOARD": {
+    "TITLE": "Panel",
+    "SUBTITLE": "Tus aplicaciones recientes",
+    "REQUEST": "Solicitar Servicios",
+    "NUMBER": "Número",
+    "CREATE_ON": "Creado el",
+    "STATUS": "Estado"
+  },
+  "ORGAN": {
+    "TITLE": "Organizaciones",
+    "DETAILS": {
+      "TITLE": "Departamentos"
+    }
+  },
+  "SHOPPING_CART": {
+    "TITLE": "Servicio seleccionado",
+    "SUBTITLE": "Rellena los campos obligatorios"
+  },
+  "OFFERED_COMMODITY": {
+    "TITLE": "Servicios ofrecidos",
+    "NAME": "Nombre",
+    "PRICE": "Precio",
+    "VIEW_DETAILS": "Ver detalles",
+    "ADD_TO_CART": "Agregar al carrito",
+    "REMOVE_FROM_CART": "Quitar del carrito",
+    "SELECT_PAGE": "Selecciona la página deseada"
+  },
+  "PAGINATOR": {
+    "ITEMS_PER_PAGE": "Ítems por página:",
+    "NEXT_PAGE": "Página siguiente",
+    "PREVIOUS_PAGE": "Página anterior",
+    "FIRST_PAGE": "Primera página",
+    "LAST_PAGE": "Última página",
+    "RANGE_LABEL_ZERO": "0 de {{length}}",
+    "RANGE_LABEL": "{{start}} - {{end}} de {{length}}"
+  }
+}

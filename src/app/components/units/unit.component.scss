@@ -1,0 +1,32 @@
+.main-container {
+  margin: auto 64px;
+  display: grid;
+  grid-template-rows: auto auto;
+  gap: 16px;
+}
+
+.style-title {
+  display: flex;
+  align-items: flex-end;
+}
+
+.action-icon {
+  &:hover {
+    color: #3f51b5;
+    cursor: pointer;
+  }
+}
+
+.style-button {
+  color: #3f51b5;
+  font-size: medium;
+}
+
+.style-button-icon {
+  height: 2rem;
+  width: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto 0;
+}

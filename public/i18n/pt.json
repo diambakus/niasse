@@ -1,0 +1,48 @@
+{
+  "TITLE": "faz a sua solicitação",
+  "CHANGE_LANGUAGE_TOOLTIP": "Mudar idioma",
+  "WELCOME": {
+    "TITLE": "Aqui o cidadao pode solicitar serviços"
+  },
+  "TOPBAR": {
+    "YOUR_ACCOUNT": "Sua Conta",
+    "LOGOUT": "Sair",
+    "LOGIN": "Entrar"
+  },
+  "DASHBOARD": {
+    "TITLE": "Painel",
+    "SUBTITLE": "Suas aplicações recentes",
+    "REQUEST": "Solicitar Serviços",
+    "NUMBER": "Número",
+    "CREATE_ON": "Criado em",
+    "STATUS": "Situação"
+  },
+  "ORGAN": {
+    "TITLE": "Organizações",
+    "DETAILS": {
+      "TITLE": "Departmentos"
+    }
+  },
+  "SHOPPING_CART": {
+    "TITLE": "Serviço selecionado",
+    "SUBTITLE": "Preencha os campos obrigatórios"
+  },
+  "OFFERED_COMMODITY": {
+    "TITLE": "Serviços oferecidos",
+    "NAME": "Nome",
+    "PRICE": "Preço",
+    "VIEW_DETAILS": "Ver detalhes",
+    "ADD_TO_CART": "Adicionar ao carrinho",
+    "REMOVE_FROM_CART": "Tirar do carrinho",
+    "SELECT_PAGE": "Seleciona a página desejada"
+  },
+  "PAGINATOR": {
+    "ITEMS_PER_PAGE": "Itens por página:",
+    "NEXT_PAGE": "Próxima página",
+    "PREVIOUS_PAGE": "Página anterior",
+    "FIRST_PAGE": "Primeira página",
+    "LAST_PAGE": "Última página",
+    "RANGE_LABEL_ZERO": "0 de {{length}}",
+    "RANGE_LABEL": "{{start}} - {{end}} de {{length}}"
+  }
+}

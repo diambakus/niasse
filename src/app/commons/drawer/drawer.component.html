@@ -1,0 +1,28 @@
+<section [class.sidenav]="isOpened">
+    @if(isOpened) {
+    <div class="navbar-toggle-left">
+        <mat-icon (click)="toggleMenu.emit(null)">
+            {{ "keyboard_double_arrow_left" }}
+        </mat-icon>
+    </div>
+    } @else {
+    <div class="navbar-toggle-right">
+        <mat-icon (click)="toggleMenu.emit(null)">
+            {{ "keyboard_double_arrow_right" }}
+        </mat-icon>
+    </div>
+    }
+    <mat-list class="nav-item">
+        @for (route of routeLinks; track route.id) {
+        <button matButton mat-list-item routerLinkActive="active-link" class="hover" routerLink="{{ route.link }}">
+            <div class="icon-name-wrapper">
+                <mat-icon mat-list-icon [matTooltip]="!isOpened ? route.name : null" matTooltipPosition="right">{{
+                    route.icon }}</mat-icon>
+                @if(isOpened) {
+                <p matLine>{{ route.name }}</p>
+                }
+            </div>
+        </button>
+        }
+    </mat-list>
+</section>

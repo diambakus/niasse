@@ -1,0 +1,35 @@
+.organ-page {
+  margin: auto 64px;
+  display: flex;
+  flex-direction: column;
+
+  &__nav-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  &__breadcrumb {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 1rem 0;
+  }
+
+  &__breadcrumb-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  &__breadcrumb-separator {
+    display: flex;
+    align-items: center;
+  }
+
+  &__breadcrumb-icon {
+    color: #3f51b5;
+    height: 32px;
+    width: 32px;
+  }
+}

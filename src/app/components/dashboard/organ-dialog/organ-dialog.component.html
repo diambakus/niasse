@@ -1,0 +1,34 @@
+<h2 mat-dialog-title>Create an Organization</h2>
+<mat-dialog-content [formGroup]="organForm">
+  <mat-form-field appearance="outline" class="input-container">
+    <!--<mat-label style="width: 100%;">Organization name</mat-label>-->
+    <input matInput formControlName="name" class="inputfield" placeholder="Type a name for the organization" />
+    @if(organForm.get('name')?.hasError('required')) {
+    <mat-error>
+      Organization name is required!
+    </mat-error>
+    } @else if(organForm.get('name')?.hasError('minLength')) {
+    <mat-error>
+      Organization name must have at least 1 character!
+    </mat-error>
+    }
+  </mat-form-field>
+  <mat-form-field appearance="outline" class="input-container">
+    <!--<mat-label style="width: 100%;">Organization name</mat-label>-->
+    <textarea matInput formControlName="description" class="inputfield"
+      placeholder="Type a name for the organization"></textarea>
+    @if(organForm.get('description')?.hasError('required')) {
+    <mat-error>
+      Organization description is required!
+    </mat-error>
+    } @else if(organForm.get('description')?.hasError('minLength')) {
+    <mat-error>
+      Organization description must have at least 10 character!
+    </mat-error>
+    }
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button matButton="elevated" (click)="onCancel()">Cancel</button>
+  <button mat-flat-button color="primary" (click)="save()">Save</button>
+</mat-dialog-actions>

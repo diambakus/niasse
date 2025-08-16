@@ -1,0 +1,20 @@
+.mat-mdc-card {
+    border-radius: 12px;
+
+    ::ng-deep .mat-mdc-form-field .mdc-text-field.mdc-text-field--filled {
+        border-radius: 12px;
+    }
+
+    ::ng-deep .mat-mdc-form-field .mdc-line-ripple {
+        display: none !important;
+    }
+}
+
+.btn-custom-color {
+    color: #3f51b5;
+}
+
+.btn-custom-color:hover {
+    background-color: #3f51b5;
+    color: #fff;
+}

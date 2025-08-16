@@ -1,0 +1,22 @@
+<table mat-table [dataSource]="dataSource">
+    <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef>Title</th>
+        <td mat-cell *matCellDef="let element">{{element.title}}</td>
+    </ng-container>
+    <ng-container matColumnDef="assignedCode">
+        <th mat-header-cell *matHeaderCellDef>Assigned code</th>
+        <td mat-cell *matCellDef="let element">{{element.assignedCode}}</td>
+    </ng-container>
+    <ng-container matColumnDef="view_details">
+        <th mat-header-cell *matHeaderCellDef>View details and update status</th>
+        <td mat-cell *matCellDef="let element">
+            <button matMiniFab matTooltip="View application details and update status" (click)="dialogViewApplicationDetails(element.id, '1500ms', '500ms')">
+                <mat-icon>visibility</mat-icon>
+            </button>
+        </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row (click)="clickedRows.add(row)" [class.demo-row-is-clicked]="clickedRows.has(row)"
+        *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>

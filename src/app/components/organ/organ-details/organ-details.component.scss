@@ -1,0 +1,51 @@
+.organisation {
+    margin: auto 64px;
+    display: grid;
+    grid-template-rows: 1fr 1fr 2fr;
+
+    &__header {
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+    }
+
+    &__departments-title {
+        margin: 0;
+        display: flex;
+        align-items: flex-end;
+
+        &-text {
+            font-size: inherit;
+        }
+    }
+
+    &__departments-grid {
+        --w: 400px;
+        --n: 3;
+        --m: 1;
+        display: grid;
+        grid-template-columns: repeat(
+            auto-fit,
+            minmax(
+                clamp(100% / (var(--n) + 1) + 0.1%, (var(--w) - 100vw) * 1000, 100% / (var(--m) + 1) + 0.1%),
+                1fr
+            )
+        );
+        gap: 10px;
+    }
+
+    &__department-card {
+        max-height: min-content;
+        font-size: medium;
+        cursor: pointer;
+    }
+
+    &__department-title {
+        display: flex;
+        gap: 10px;
+    }
+
+    &__department-name {
+        font-size: medium;
+    }
+}

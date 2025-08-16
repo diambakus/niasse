@@ -1,0 +1,44 @@
+<h2 mat-dialog-title>Create an Unit</h2>
+<mat-dialog-content [formGroup]="unitForm">
+    <mat-form-field appearance="outline" class="input-container">
+        <input matInput formControlName="name" class="inputfield" placeholder="Type a name for the unit" />
+        @if(unitForm.get('name')?.hasError('required')) {
+        <mat-error>
+            Name is required
+        </mat-error>
+        } @else if(unitForm.get('name')?.hasError('minLength')) {
+        <mat-error>
+            Unit name must have at least 1 character.
+        </mat-error>
+        }
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="input-container">
+        <!--<mat-label>Select an organization</mat-label>-->
+        <mat-select formControlName="organId">
+            @for (food of foods; track food) {
+            <mat-option [value]="food.value">{{food.viewValue}}</mat-option>
+            }
+        </mat-select>
+        @if(unitForm.get('organId')?.hasError('required')) {
+        <mat-error>
+            Select an organization
+        </mat-error>
+        }
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="input-container">
+        <textarea matInput formControlName="description" class="inputfield" placeholder="Describe the unit"></textarea>
+        @if(unitForm.get('description')?.hasError('required')) {
+        <mat-error>
+            Unit description is required.
+        </mat-error>
+        } @else if(unitForm.get('description')?.hasError('minLength')) {
+        <mat-error>
+            Unit description must have at least 10 character.
+        </mat-error>
+        }
+    </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button matButton="elevated" (click)="onCancel()">Cancel</button>
+    <button mat-flat-button color="primary" (click)="save()">Save</button>
+</mat-dialog-actions>

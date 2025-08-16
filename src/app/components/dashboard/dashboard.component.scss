@@ -1,0 +1,94 @@
+.dashboard {
+  margin: auto 64px;
+  display: flex;
+  flex-direction: column;
+
+  &__header {}
+
+  &__title {
+    margin: 0;
+    display: flex;
+    align-items: flex-end;
+  }
+
+  &__actions {}
+
+  &__quick_action-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.25rem;
+  }
+
+  &__action-button {
+    text-decoration: none;
+    font-weight: bold;
+    font-size: large;
+
+    &:hover {
+      color: #3f51b5;
+      font-size: larger;
+    }
+  }
+
+  &__action-icon {
+    color: #3f51b5;
+  }
+
+  &__shortcut_button {
+    min-width: 48px;
+    background-color: transparent;
+    &:hover {
+      background-color: #f7f7f7f8;
+    }
+  }
+
+  &__applications {}
+
+  &__section-title {}
+
+  &__card {}
+
+  &__card-content {}
+
+  &__list {}
+
+  &__list-subheader {}
+
+  &__application {}
+
+  &__application-item {
+    display: flex;
+    flex-direction: row;
+  }
+
+  &__application-icon {
+    color: rgba(0, 0, 0, 0.54);
+  }
+
+  &__application-info {}
+
+  &__application-text {
+    font-size: small;
+    color: darkgrey;
+    font-weight: 700;
+
+    &--spaced {
+      margin-bottom: 0px;
+    }
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .dashboard {
+    &__quick_action-buttons {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    &__action-icon {
+      &:hover {
+        color: #3f51b5;
+      }
+    }
+  }
+}
