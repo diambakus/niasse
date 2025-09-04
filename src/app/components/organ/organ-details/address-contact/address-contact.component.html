@@ -1,0 +1,123 @@
+<div class="expansion">
+    <mat-accordion class="expansion__exp-headers-align">
+        <mat-expansion-panel hideToggle>
+            <mat-expansion-panel-header>
+                <mat-panel-title> Add an address </mat-panel-title>
+                <mat-panel-description>
+                    Type the address information
+                    <mat-icon color="primary">home</mat-icon>
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+            <form [formGroup]="addressForm">
+                <div class="expansion__form-address-row">
+                    <div class="expansion__street">
+                        <mat-form-field class="expansion__full-width">
+                            <input matInput placeholder="Address" formControlName="street">
+                            @if(addressForm.controls['street'].hasError('required')) {
+                            <mat-error>
+                                Address is <strong>required</strong>
+                            </mat-error>
+                            }
+                        </mat-form-field>
+                    </div>
+                    <div class="expansion__address-number">
+                        <mat-form-field>
+                            <input matInput placeholder="Address number" formControlName="addressNumber">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="expansion__form-address-row">
+                    <div class="expansion__city">
+                        <mat-form-field class="expansion__full-width">
+                            <input matInput placeholder="City" formControlName="city">
+                            @if(addressForm.controls['city'].hasError('required')) {
+                            <mat-error>
+                                City is <strong>required</strong>
+                            </mat-error>
+                            }
+                        </mat-form-field>
+                    </div>
+                    <div class="expansion__postal">
+                        <mat-form-field>
+                            <input matInput #postalCode maxlength="5" placeholder="Postal Code" type="string"
+                                formControlName="postalCode">
+                            <mat-hint align="end">{{postalCode.value.length}} / 5</mat-hint>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div align="end">
+                    <button matButton="elevated" style="margin-right: 0.625rem;">Cancel</button>
+                    <button mat-flat-button color="primary" (click)="saveAddress()" [disabled]="!addressForm">Save</button>
+                </div>
+            </form>
+        </mat-expansion-panel>
+        <mat-expansion-panel hideToggle>
+            <mat-expansion-panel-header>
+                <mat-panel-title> Add E-mail and Telephone </mat-panel-title>
+                <mat-panel-description>
+                    Type an E-mail and Telephone
+                    <mat-icon color="primary">contact_page</mat-icon>
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <form [formGroup]="contactForm">
+                <div class="expansion__form-contact-row">
+                    <div>
+                        <mat-form-field>
+                            <mat-label>Name</mat-label>
+                            <input matInput placeholder="Type a name" formControlName="name" />
+                            @if(contactForm.controls['name'].hasError('required')) {
+                            <mat-error>
+                                Name is <strong>required</strong>
+                            </mat-error>
+                            }
+                        </mat-form-field>
+                    </div>
+                    <div>
+                        <mat-form-field>
+                            <mat-label>Contact type</mat-label>
+                            <mat-select matInput placeholder="Choose a type" formControlName="contactType">
+                                <mat-option value="MAIN">MAIN</mat-option>
+                            </mat-select>
+                            @if(contactForm.controls['contactType'].hasError('required')) {
+                            <mat-error>
+                                Contact type is <strong>required</strong>
+                            </mat-error>
+                            }
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="expansion__form-contact-row">
+                    <div>
+                        <mat-form-field>
+                            <mat-label>Telephone</mat-label>
+                            <input matInput placeholder="Type a telephone number" formControlName="phone" />
+                            @if(contactForm.controls['phone'].hasError('required')) {
+                            <mat-error>
+                                A valid telephone number is <strong>required</strong>
+                            </mat-error>
+                            }
+                        </mat-form-field>
+                    </div>
+                    <div>
+                        <mat-form-field>
+                            <mat-label>E-mail</mat-label>
+                            <input matInput placeholder="Type an E-mail" formControlName="email" />
+                            @if(contactForm.controls['email'].hasError('required')) {
+                            <mat-error>
+                                A valid e-mail number is <strong>required</strong>
+                            </mat-error>
+                            }
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div align="end">
+                    <button matButton="elevated" style="margin-right: 0.625rem;">Cancel</button>
+                    <button mat-flat-button color="primary" (click)="saveContact()" [disabled]="!contactForm.valid">Save</button>
+                </div>
+            </form>
+        </mat-expansion-panel>
+    </mat-accordion>
+</div>

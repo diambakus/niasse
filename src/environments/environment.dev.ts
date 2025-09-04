@@ -5,5 +5,6 @@ export const environment = {
       server: 'http://localhost:8080',
       clientId: 'Niasse',
       realm: 'kumpo'
-    }
+    },
+    gatewayBaseUrl: `http://localhost:8094`
   };

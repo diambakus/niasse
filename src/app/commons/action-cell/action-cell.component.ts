@@ -5,7 +5,7 @@ import { MatTooltip } from '@angular/material/tooltip';
 import { ICellRendererAngularComp } from 'ag-grid-angular';
 import { ICellRendererParams } from 'ag-grid-community';
 import { Router, RouterLink } from '@angular/router';
-import { EntityType } from './util-type';
+import { EntityType } from '../util-type';
 
 
 

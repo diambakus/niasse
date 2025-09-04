@@ -1,45 +1,36 @@
-import { Injectable, OnInit } from '@angular/core';
-import { Organ } from './organ';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { catchError, Observable, of, tap } from 'rxjs';
+import { environment } from '../../../environments/environment.dev';
+import { Organ } from './organ';
 
 @Injectable({
   providedIn: 'root'
 })
-export class OrganService implements OnInit {
+export class OrganService {
 
-  private assetsUrl = 'api/organs';
-
+  private readonly baseUrl = environment.gatewayBaseUrl;
+  private assetsUrl = '/servitus/organ';
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
 
-  organs: Organ[] = [];
   constructor(private http: HttpClient) { }
 
-  ngOnInit(): void {
-    this.organs = [];
-    throw new Error('Method not implemented.');
-  }
-
   getOrgans(): Observable<Organ[]> {
-    let organs: Organ[] = [
-      {id: 1, name: 'Organization I', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.  Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.  Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.'},
-      {id: 2, name: 'Organization II', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.  Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.  Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.'},
-      {id: 3, name: 'Organization III', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.  Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.  Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.'},
-      {id: 4, name: 'Organization IV', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.  Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.  Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.'},
-      {id: 5, name: 'Organization V', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.  Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.  Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.'},
-      {id: 6, name: 'Organization VI', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.  Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.  Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.'}
-
-    ];
-
-    return of (organs);
-
-    /*return this.http.get<Organ[]>(this.assetsUrl)
+    return this.http.get<Organ[]>(`${this.baseUrl}${this.assetsUrl}`)
       .pipe(
         tap(_ => this.log('fetched organisations')),
         catchError(this.handleError<Organ[]>('getOrgans', []))
-      );*/
+      );
+  }
+
+  get(id: number): Observable<Organ> {
+    return this.http.get<Organ>(`${this.baseUrl}${this.assetsUrl}/${id}`,)
+      .pipe(
+        tap(_ => this.log('fetched organisation')),
+        catchError(this.handleError<Organ>('getOrgan'))
+      );
   }
 
   addOrgan(organ: Organ): Observable<Organ> {

@@ -1,0 +1,46 @@
+.expansion {
+  &__exp-headers-align .mat-expansion-panel-header-description {
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__exp-headers-align .mat-mdc-form-field+.mat-mdc-form-field {
+    margin-left: 0.5rem;
+  }
+
+  &__full-width {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+
+  &__form-address-row {
+    display: grid;
+    gap: 1rem; // spacing between fields
+    grid-template-columns: 80% 20%;
+
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr; // stack on smaller screens
+    }
+  }
+
+  &__form-contact-row {
+    display: grid;
+    gap: 1rem; // spacing between fields
+    grid-template-columns: 50% 50%;
+
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr; // stack on smaller screens
+    }
+  }
+
+  &__street,
+  &__addressNumber,
+  &__city,
+  &__postal,
+  &__name,
+  &__contactType,
+  &__phone,
+  &__email {
+    width: 100%; // ensure mat-form-field fills its grid cell
+  }
+}

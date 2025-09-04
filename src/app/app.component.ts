@@ -15,6 +15,7 @@ import { AuthService } from './auth/auth.service';
 import { DrawerComponent } from './commons/drawer/drawer.component';
 import { CartItem } from './commons/shared/common-topics';
 import { TopbarComponent } from './components/topbar/topbar.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 ModuleRegistry.registerModules([
     AllCommunityModule,
@@ -30,7 +31,8 @@ ModuleRegistry.registerModules([
     MatSidenavModule,
     MatIconModule,
     MatSidenavModule,
-    MatListModule
+    MatListModule,
+    FooterComponent
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'

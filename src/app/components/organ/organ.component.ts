@@ -65,15 +65,16 @@ export class OrganComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.rowData = this.getOrgans();
-  }
-
-  getOrgans(): Organ[] {
     this.organService.getOrgans().subscribe(
-      organs => this.organs = organs
-    );
+      {
+        next: (value: Organ[]) => {
+          this.rowData = value;
+        },
+        error: (error: any) => {
 
-    return this.organs;
+        }
+      }
+    );
   }
 
   setOrgan(selectedOrgan: Organ) {

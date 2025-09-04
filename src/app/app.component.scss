@@ -1,28 +1,38 @@
-.container {
-    display: flex;
-    flex-direction: column;
-    position: absolute;
-    min-width: 100%;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-}
+.app {
+    &__container {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        /*position: absolute;
+        min-width: 100%;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;*/
+    }
 
-.niasse-is-mobile .niasse-toolbar {
-    position: fixed;
-    z-index: 2;
-}
+    &__niasse-is-mobile &__niasse-toolbar {
+        position: fixed;
+        z-index: 2;
+    }
 
-.ysidenav-container {
-    flex: 1;
-    margin-top: 3rem;
-}
+    &__ysidenav-container {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        margin-top: 3rem;
+    }
 
-.niasse-is-mobile .sidenav-container {
-    flex: 1 0 auto;
-}
+    &__niasse-is-mobile &__sidenav-container {
+        flex: 1 0 auto;
+    }
 
-.content-container {
-    padding-top: 1rem;
+    &__content-container {
+        flex: 1;
+        padding-top: 1rem;
+    }
+
+    &__footer {
+        flex-shrink: 0;
+    }
 }

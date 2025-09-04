@@ -29,7 +29,7 @@ export class OrganDialogComponent {
   constructor(private formBuilder: FormBuilder) {
     this.organForm = this.formBuilder.group({
       name: [this.data.name, [Validators.required, Validators.minLength(1), noSpecialChars]],
-      description: [this.data.description, [Validators.required, Validators.minLength(10)]]
+      description: [this.data.note, [Validators.required, Validators.minLength(10)]]
     });
   }
 

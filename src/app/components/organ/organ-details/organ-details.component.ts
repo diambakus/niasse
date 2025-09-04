@@ -1,34 +1,20 @@
-import { Component, OnInit } from '@angular/core';
-import { Unit } from '../../units/unit';
-import { UnitService } from '../../units/unit.service';
-import { ActivatedRoute, RouterModule } from '@angular/router';
-import { DataKey, DataService } from '../../../commons/shared/data.service';
-import { MatIconModule } from '@angular/material/icon';
-import { MatCardModule } from '@angular/material/card';
 import { CommonModule } from '@angular/common';
-import { MatDividerModule } from '@angular/material/divider';
+import { Component, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatIconModule } from '@angular/material/icon';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { Unit } from '../../units/unit';
 import { Organ } from '../organ';
+import { OrganService } from '../organ.service';
+import { AddressContactComponent } from './address-contact/address-contact.component';
+import { AddressViewEditComponent } from './address-view-edit/address-view-edit.component';
+import { ContactViewEditComponent } from './contact-view-edit/contact-view-edit.component';
 
 
-const organs: Organ[] = [
-  {
-    id: 1,
-    name: 'Ministry of Health',
-    description: 'Oversees national healthcare and hospital systems',
-  },
-  {
-    id: 2,
-    name: 'Ministry of Education',
-    description: 'Manages public education, universities, and research programs',
-  },
-  {
-    id: 3,
-    name: 'Ministry of Agriculture',
-    description: 'Responsible for farming policies, food security, and agricultural development',
-  }
-];
+const organs: Organ[] = [];
 
 
 const units: Unit[] = [
@@ -51,7 +37,10 @@ const units: Unit[] = [
     CommonModule,
     MatDividerModule,
     MatButtonModule,
-    TranslateModule
+    TranslateModule,
+    AddressContactComponent,
+    AddressViewEditComponent,
+    ContactViewEditComponent
   ],
   templateUrl: './organ-details.component.html',
   styleUrl: './organ-details.component.scss'
@@ -59,44 +48,24 @@ const units: Unit[] = [
 export class OrganDetailsComponent implements OnInit {
 
   units: Unit[] = [];
-  selectedOrgan: any;
+  selectedOrgan!: Organ;
 
   constructor(
-    private unitService: UnitService,
+    private organService: OrganService,
     private route: ActivatedRoute,
-    private dataService: DataService,
     public translate: TranslateService
   ) { }
 
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.getUnitByOrgan(id);
-
-    this.dataService.getData(DataKey.activeOrgan)?.subscribe((data) => {
-      this.selectedOrgan = data;
-    });
-  }
-
-  getUnitByOrgan(organId: number): Unit[] {
-    this.unitService.getUnitsByOrgan(organId).subscribe(
+    this.organService.get(id).subscribe(
       {
-        next: (units) => {
-          this.units = units;
-        },
-        error: (error) => {
-          console.log('Error fetching units', error);
+        next: (organ: Organ) => {
+          this.selectedOrgan = organ;
+        }, error: (err: any) => {
+
         }
       }
     );
-
-    return this.units;
-  }
-
-  setUnit(selectedUnit: Unit) {
-    if (!selectedUnit.id) {
-      return;
-    }
-
-    this.dataService.setData(DataKey.activeUnit, selectedUnit.name);
   }
 }

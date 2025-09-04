@@ -1,25 +1,55 @@
 <div class="organisation">
-    <div class="organisation__header">
-        <h1>
-            <button mat-mini-fab [routerLink]="['/organs']">
-                <mat-icon>arrow_back</mat-icon>
-            </button>
-            {{selectedOrgan}}
-        </h1>
+
+    <button mat-mini-fab [routerLink]="['/organs']" color="primary">
+        <mat-icon>arrow_back</mat-icon>
+    </button>
+
+
+    <h1 class="organisation__title">
+        {{selectedOrgan.name}}
+    </h1>
+
+    <div>
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title>Description</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                {{selectedOrgan.note}}
+            </mat-card-content>
+        </mat-card>
     </div>
-    <div class="organisation__departments-title">
-        <h2 class="organisation__departments-title-text">{{ 'ORGAN.DETAILS.TITLE' | translate }}</h2>
+
+    @if(true) {
+    <!--TODO: precisa implementar. Algo como: clica o botao adicionar contato se o usuário tiver permissao-->
+    <div>
+        <h4>Address and Contact Enhancement</h4>
+        <app-address-contact></app-address-contact>
     </div>
-    <div class="organisation__departments-grid">
-        <div *ngFor="let unit of units">
-            <mat-card class="organisation__department-card">
-                <mat-card-content [routerLink]="['/units', unit.id]" (click)="setUnit(unit)">
-                    <mat-card-title class="organisation__department-title">
-                        <div><mat-icon>apartment</mat-icon></div>
-                        <div class="organisation__department-name">{{unit.name}}</div>
-                    </mat-card-title>
+    }
+
+    <div class="organisation__address-contact-row">
+        <div class="organisation__addresses">
+            <h4>Addresses Info</h4>
+            <mat-card>
+                <mat-card-content>
+                    <app-address-view-edit></app-address-view-edit>
+                </mat-card-content>
+            </mat-card>
+        </div>
+        <div class="organisation__contacts">
+            <h4>Contacts Info</h4>
+            <mat-card>
+                <mat-card-content>
+                    <app-contact-view-edit></app-contact-view-edit>
                 </mat-card-content>
             </mat-card>
         </div>
     </div>
+
+    <!--<div class="organisation__departments-title">
+        <h2 class="organisation__departments-title-text">{{ 'ORGAN.DETAILS.TITLE' | translate }}</h2>
+    </div>
+    <div class="organisation__departments-grid">
+    </div>-->
 </div>
