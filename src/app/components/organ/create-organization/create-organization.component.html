@@ -32,8 +32,8 @@
         </mat-dialog-content>
     </mat-card>
     <div class="buttons-container">
-        <button matButton="elevated">Cancel</button>
-        <button matButton="elevated" color="primary" extended>
+        <button matButton="elevated" (click)="cancel()">Cancel</button>
+        <button matButton="elevated" color="primary" extended (click)="save()">
             <mat-icon>save</mat-icon>
             Save
         </button>

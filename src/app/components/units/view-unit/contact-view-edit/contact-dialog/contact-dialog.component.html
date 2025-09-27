@@ -1,0 +1,34 @@
+<div class="contact-dialog">
+    <h2 mat-dialog-title>Edit Contact</h2>
+
+    <mat-dialog-content>
+        <mat-form-field appearance="fill" class="contact-dialog__full-width">
+            <mat-label>Contact Type</mat-label>
+            <mat-select [(ngModel)]="contact.contactType">
+                <mat-option value="MAIN">MAIN</mat-option>
+                <mat-option value="SECONDARY">SECONDARY</mat-option>
+                <mat-option value="OTHER">OTHER</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="contact-dialog__full-width">
+            <mat-label>Name</mat-label>
+            <input matInput [(ngModel)]="contact.name" />
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="contact-dialog__full-width">
+            <mat-label>E-mail</mat-label>
+            <input matInput type="email" [(ngModel)]="contact.email" />
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="contact-dialog__full-width">
+            <mat-label>Telephone</mat-label>
+            <input matInput type="tel" [(ngModel)]="contact.phone" />
+        </mat-form-field>
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="end">
+        <button mat-button mat-dialog-close>Cancel</button>
+        <button mat-button color="primary" (click)="save()">Save</button>
+    </mat-dialog-actions>
+</div>

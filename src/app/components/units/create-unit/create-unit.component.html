@@ -1,0 +1,61 @@
+@let organs = organs$ | async;
+<div class="create-unit-container">
+    <h2 class="create-unit-container__title">Create unit</h2>
+    <mat-card class="create-unit-container__card-container">
+        <mat-dialog-content [formGroup]="unitForm">
+            <div class="create-unit-container__composed-unit_name-select-organ">
+                <mat-form-field class="create-unit-container__input-name-container">
+                    <mat-label>Type the unit name</mat-label>
+                    <input matInput formControlName="name" class="create-unit-container__inputfield"/>
+                    @if(unitForm.get('name')?.hasError('required')) {
+                    <mat-error>
+                        Unit name is required!
+                    </mat-error>
+                    } @else if(unitForm.get('name')?.hasError('minLength')) {
+                    <mat-error>
+                        Unit name must have at least 1 character!
+                    </mat-error>
+                    }
+                </mat-form-field>
+                <mat-form-field class="create-unit-container__select-organ" appearance="fill">
+                    <mat-label>Select a organisation</mat-label>
+                    <input type="text" placeholder="Choose an organisation" formControlName="organDto"
+                        aria-label="organisation" matInput [matAutocomplete]="auto">
+                    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayOrganName">
+                        @for(organ of organs; track organ.id) {
+                        <mat-option [value]="organ">{{organ.name}}</mat-option>
+                        }
+                    </mat-autocomplete>
+                    @if(unitForm.controls['organDto'].hasError('required')) {
+                    <mat-error>
+                        Organisation is <strong>required</strong>
+                    </mat-error>
+                    }
+                </mat-form-field>
+            </div>
+            <mat-label>
+                <h3>Description</h3>
+            </mat-label>
+            <mat-form-field appearance="outline" class="create-unit-container__description">
+                <textarea matInput formControlName="description" class="create-unit-container__inputfield"
+                    placeholder="Type the unit description"></textarea>
+                @if(unitForm.get('description')?.hasError('required')) {
+                <mat-error>
+                    Unit description is required!
+                </mat-error>
+                } @else if(unitForm.get('description')?.hasError('minLength')) {
+                <mat-error>
+                    Unit description must have at least 10 character!
+                </mat-error>
+                }
+            </mat-form-field>
+        </mat-dialog-content>
+    </mat-card>
+    <div class="create-unit-container__buttons-container">
+        <button matButton="elevated" (click)="cancel()">Cancel</button>
+        <button matButton="elevated" color="primary" extended (click)="save()">
+            <mat-icon>save</mat-icon>
+            Save
+        </button>
+    </div>
+</div>

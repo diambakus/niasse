@@ -1,0 +1,80 @@
+.create-servis-container {
+    margin: auto 64px;
+    display: grid;
+    grid-template-rows: auto auto;
+    gap: 16px;
+    padding: 1rem;
+
+    &__title {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 2rem;
+    }
+
+    &__rowed-name-type-unit {
+        display: grid;
+        grid-template-columns: 50% 50%;
+        gap: 1rem;
+        margin-right: 1rem;
+
+        @media (max-width: 768px) {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    &__input-name-container,
+    &__servis-type,
+    &__unit,
+    &__description {
+        width: 100%;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5 {
+        color: #3f51b5;
+        text-transform: uppercase;
+    }
+
+    &__inputfield {
+        ::ng-deep &__mat-mdc-form-field &__mdc-text-field.mdc-text-field--filled {
+            border-radius: 12px;
+        }
+
+        ::ng-deep &__mat-mdc-form-field &__mdc-line-ripple {
+            display: none !important;
+        }
+
+        ::ng-deep &__mat-form-field-appearance-outline.mat-form-field-disabled,
+        ::ng-deep &__mat-form-field-outline {
+            opacity: 0;
+        }
+    }
+
+    &__card-container {
+        padding: 4.15rem;
+    }
+
+    &__buttons-container {
+        display: flex;
+        justify-content: flex-end;
+        gap: 0.5rem;
+    }
+
+    &__style-button {
+        color: #3f51b5;
+        font-size: medium;
+    }
+
+    &__style-button-icon {
+        height: 2rem;
+        width: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: auto 0;
+    }
+}

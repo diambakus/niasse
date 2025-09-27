@@ -1,60 +1,65 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, Observable, of, tap } from 'rxjs';
+import { catchError, Observable, shareReplay, tap } from 'rxjs';
 import { environment } from '../../../environments/environment.dev';
 import { Organ } from './organ';
+import { BaseService } from '../../commons/shared/service/base-service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-export class OrganService {
-
-  private readonly baseUrl = environment.gatewayBaseUrl;
-  private assetsUrl = '/servitus/organ';
-  httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+export class OrganService extends BaseService {
+  private readonly resourceUrl = `${environment.gatewayBaseUrl}/servitus/organ`;
+  private readonly httpOptions = {
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
   };
+  private organsCache$?: Observable<Organ[]>;
+  private organCache = new Map<number, Observable<Organ>>();
 
-  constructor(private http: HttpClient) { }
-
-  getOrgans(): Observable<Organ[]> {
-    return this.http.get<Organ[]>(`${this.baseUrl}${this.assetsUrl}`)
-      .pipe(
-        tap(_ => this.log('fetched organisations')),
-        catchError(this.handleError<Organ[]>('getOrgans', []))
-      );
+  constructor(private http: HttpClient) {
+    super('OrganService');
   }
 
-  get(id: number): Observable<Organ> {
-    return this.http.get<Organ>(`${this.baseUrl}${this.assetsUrl}/${id}`,)
-      .pipe(
-        tap(_ => this.log('fetched organisation')),
-        catchError(this.handleError<Organ>('getOrgan'))
+  getOrgans(forceRefresh = false): Observable<Organ[]> {
+    if (!this.organsCache$ || forceRefresh) {
+      this.organsCache$ = this.http.get<Organ[]>(this.resourceUrl).pipe(
+        tap(() => this.log('Fetched organisations')),
+        catchError(this.handleError<Organ[]>('getOrgans', [])),
+        shareReplay(1)
       );
+    } else {
+      this.log('Fetched organisations (from cache)');
+    }
+    return this.organsCache$;
+  }
+
+  get(id: number, forceRefresh = false): Observable<Organ> {
+    if (!this.organCache.has(id) || forceRefresh) {
+      const request$ = this.http.get<Organ>(`${this.resourceUrl}/${id}`).pipe(
+        tap(() => this.log(`Fetched organisation id=${id}`)),
+        catchError(this.handleError<Organ>('getOrgan')),
+        shareReplay(1)
+      );
+      this.organCache.set(id, request$);
+    } else {
+      this.log(`Fetched organisation id=${id} (from cache)`);
+    }
+    return this.organCache.get(id)!;
   }
 
   addOrgan(organ: Organ): Observable<Organ> {
-    return this.http.post<Organ>(this.assetsUrl, organ, this.httpOptions).pipe(
-      tap((freshOrgan: Organ) => this.log(`added new Organisation w/ id=${freshOrgan.id}`)),
+    return this.http.post<Organ>(this.resourceUrl, organ, this.httpOptions).pipe(
+      tap((freshOrgan) => {
+        this.log(`Added organisation w/ id=${freshOrgan.id}`);
+        this.clearCache();
+      }),
       catchError(this.handleError<Organ>('addOrgan'))
     );
   }
 
-  log(message: string) {
-    console.debug(message); // TODO: change to MessageService instead
-  }
-
-  private handleError<T>(operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-
-      // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instead
-
-      // TODO: better job of transforming error for user consumption
-      this.log(`${operation} failed: ${error.message}`);
-
-      // Let the app keep running by returning an empty result.
-      return of(result as T);
-    };
+  private clearCache(): void {
+    this.organsCache$ = undefined;
+    this.organCache.clear();
+    this.log('Cache cleared');
   }
 }

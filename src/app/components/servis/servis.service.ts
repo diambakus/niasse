@@ -1,69 +1,84 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { catchError, Observable, of, tap } from 'rxjs';
+import { inject, Injectable } from '@angular/core';
+import { catchError, Observable, of, shareReplay, tap } from 'rxjs';
 import { Servis } from './servis';
+import { BaseService } from '../../commons/shared/service/base-service';
+import { environment } from '../../../environments/environment.dev';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ServisService {
+export class ServisService extends BaseService {
 
-  private servisUrl: string = "api/servis";
+  private readonly resourceUrl = `${environment.gatewayBaseUrl}/servitus/servis`
+  private httpClient = inject(HttpClient);
+  private servisCache$?: Observable<Servis[]>;
+  private servisCacheMap = new Map<number, Observable<Servis>>;
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
 
-  constructor(private http: HttpClient) { }
-
-  getAll(): Observable<Servis[]> {
-    return this.http.get<Servis[]>(this.servisUrl).pipe(
-      tap(_ => this.log('Fetched servis')),
-      catchError(this.handleError<Servis[]>('', []))
-    );
+  constructor() {
+    super('ServisService');
   }
 
-  get(id: number): Observable<Servis> {
-    const url = `${this.servisUrl}/${id}`;
-    const fetchedServis = this.http.get<Servis>(url).pipe(
-      tap(_ => {
-        this.log(`Fetched servis id=${id}`)
-      }),
-      catchError(this.handleError<Servis>(`get id=${id}`))
-    );
-    return fetchedServis;
+  getAll(forceRefresh = false): Observable<Servis[]> {
+    console.debug('...');
+    if (!this.servisCache$ || forceRefresh) {
+      this.servisCache$ = this.httpClient.get<Servis[]>(this.resourceUrl).pipe(
+        tap(() => this.log('Fetched all services')),
+        catchError(this.handleError<Servis[]>('getAll', [])),
+        shareReplay(1)
+      );
+    } else {
+      this.log('Fetched all servis (from cache)');
+    }
+    return this.servisCache$;
   }
 
-  getByUnit(unitId: number): Observable<Servis[]> {
-    const url = `${this.servisUrl}?unitId=${unitId}`;
-    const items = this.http.get<Servis[]>(url).pipe(
-      tap(data => {
-        this.log(`Fetched items with unitId=${unitId}`);
-        console.debug(JSON.stringify(data)); // Logs the actual data after the request resolves
-      }),
-      catchError(this.handleError<Servis[]>(`getByUnit id=${unitId}`))
-    );
-
-    return items;
+  getByUnit(unitId: number, forceRefresh = false): Observable<Servis[]> {
+    if (!this.servisCache$ || forceRefresh) {
+      this.servisCache$ = this.httpClient.get<Servis[]>(`${this.resourceUrl}/${unitId}`).pipe(
+        tap(() => this.log(`Fetched all services by unit(${unitId})`)),
+        catchError(this.handleError<Servis[]>('getByUnit', [])),
+        shareReplay(1)
+      );
+    } else {
+      this.log('Fetched all servis (from cache)');
+    }
+    return this.servisCache$;
   }
 
-  addForUnit(servis: Servis, unitId: number): Observable<any> {
-    const url: string = `api/unit/${unitId}`;
-    return this.http.post<Servis>(url, servis, this.httpOptions)
+  get(id: number, forceRefresh = false): Observable<Servis> {
+    if (forceRefresh || !this.servisCacheMap.has(id)) {
+      const request$ = this.httpClient.get<Servis>(`${this.resourceUrl}/${id}`)
+        .pipe(
+          tap(_ => this.log(`Fetched servis id=${id}`)),
+          catchError(this.handleError<Servis>(`get id=${id}`)),
+          shareReplay(1)
+        );
+      this.servisCacheMap.set(id, request$);
+    } else {
+      this.log(`Fetched servis id=${id} (from cache)`);
+    }
+
+    return this.servisCacheMap.get(id)!;
+  }
+
+  addServis(servis: Servis): Observable<Servis> {
+    return this.httpClient.post<Servis>(this.resourceUrl, servis, this.httpOptions)
       .pipe(
-        tap((unit: Servis) => this.log(`added servis w/ id=${unit.id}`)),
-        catchError(this.handleError<Servis>('addForUnit'))
+        tap((servis: Servis) => {
+          this.log(`added servis w/ id=${servis.id}`);
+          this.clearCache();
+        }),
+        catchError(this.handleError<Servis>('addServis'))
       );
   }
 
-  private log(message: string) {
-    console.debug(`ServisService: ${message}`);
-  }
-
-  private handleError<T>(operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-      console.error(error);
-      this.log(`${operation} failed: ${error.message}`);
-      return of(result as T);
-    };
+  private clearCache(): void {
+    this.servisCache$ = undefined;
+    this.servisCacheMap.clear();
+    this.log('Cache cleared');
   }
 }

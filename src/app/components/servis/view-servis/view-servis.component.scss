@@ -1,0 +1,78 @@
+.servis {
+    margin: auto 64px;
+    display: grid;
+    //flex-direction: column;
+    grid-template-columns: 1;
+    gap: 4rem; // distancia entre os div
+    padding: 1rem;
+
+    &__nav-back {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    &__title {
+        text-align: center;
+    }
+
+    &__compose-name-type-price {
+        display: grid;
+        grid-template-columns: 50% 50%;
+    }
+
+    &__service-name {
+        display: flex;
+        justify-content: flex-start;
+        gap: .5rem;
+    }
+
+    &__compose-service-type-price {
+        display: flex;
+        justify-content: flex-end;
+        gap: 1.5rem;
+    }
+
+    &__nav-button {
+        background-color: #3f51b5;
+    }
+
+    &__department-card {
+        max-height: min-content;
+        font-size: medium;
+        cursor: pointer;
+    }
+
+    &__department-title {
+        display: flex;
+        gap: 10px;
+    }
+
+    &__department-name {
+        font-size: medium;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5 {
+        color: #3f51b5;
+        text-transform: uppercase;
+    }
+
+    &__address-contact-row {
+        display: grid;
+        grid-template-columns: 50% 50%;
+        gap: 1rem;
+        margin-right: 1rem;
+
+        @media (max-width: 768px) {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    &__addresses, &__contacts {
+        width: 100%;
+    }
+}

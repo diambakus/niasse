@@ -1,0 +1,79 @@
+@let units = units$ | async;
+<div class="create-servis-container ">
+    <h2 class="create-servis-container__title">Create service</h2>
+    <mat-card class="create-servis-container__card-container">
+        <mat-dialog-content [formGroup]="servisForm">
+            <div class="create-servis-container__rowed-name-type-unit">
+                <mat-form-field class="create-servis-container__input-name-container">
+                    <mat-label>Type service name</mat-label>
+                    <input matInput formControlName="name" class="create-servis-container__inputfield">
+                    @if(servisForm.get('name')?.hasError('required')) {
+                    <mat-error>
+                        Service name is <strong>required!</strong>
+                    </mat-error>
+                    } @else if(servisForm.get('name')?.hasError('minLength')) {
+                    <mat-error>
+                        Servis name must have at least 1 character!
+                    </mat-error>
+                    }
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Select service type</mat-label>
+                    <mat-select formControlName="servisType" matInput>
+                        @for(servisType of servisTypes; track servisType) {
+                        <mat-option [value]="servisType.key">{{ servisType.key }}</mat-option>
+                        }
+                    </mat-select>
+                    @if(servisForm.controls['servisType'].hasError('required')) {
+                    <mat-error>
+                        Service type is <strong>required!</strong>
+                    </mat-error>
+                    }
+                </mat-form-field>
+            </div>
+            <div class="create-servis-container__rowed-name-type-unit">
+                <mat-form-field>
+                    <mat-label>Select units</mat-label>
+                    <mat-select formControlName="unitsDto" multiple>
+                        @for(unit of units; track unit.id) {
+                        <mat-option [value]="unit">{{unit.name}}</mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Type the service price</mat-label>
+                    <input type="number" placeholder="Select unit(s)" formControlName="price" aria-label="price"
+                        matInput class="no-spinner" appearance="outline">
+                    @if(servisForm.get('price')?.hasError('required')) {
+                    <mat-error>
+                        Servis price is <strong>required!</strong>
+                    </mat-error>
+                    }
+                </mat-form-field>
+            </div>
+            <div>
+                <h3>Description</h3>
+                <mat-form-field appearance="outline" class="create-servis-container__description">
+                    <textarea matInput formControlName="description" class="create-servis-container__inputfield"
+                        placeholder="Type the service description"></textarea>
+                    @if(servisForm.get('description')?.hasError('required')) {
+                    <mat-error>
+                        Servis description is required!
+                    </mat-error>
+                    } @else if(servisForm.get('description')?.hasError('minLength')) {
+                    <mat-error>
+                        Servis description must have at least 10 character!
+                    </mat-error>
+                    }
+                </mat-form-field>
+            </div>
+        </mat-dialog-content>
+    </mat-card>
+    <div class="create-servis-container__buttons-container">
+        <button matButton="elevated" (click)="cancel()">Cancel</button>
+        <button matButton="elevated" color="primary" extended (click)="save()">
+            <mat-icon>save</mat-icon>
+            Save
+        </button>
+    </div>
+</div>

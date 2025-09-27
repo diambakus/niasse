@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -7,12 +7,12 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { AgGridAngular } from 'ag-grid-angular';
-import { Unit } from './unit';
 import { ColDef } from 'ag-grid-community';
 import { ActionCellComponent } from '../../commons/action-cell/action-cell.component';
-import { UnitService } from './unit.service';
-import { UnitData } from '../../commons/shared/unit';
 import { GridOptionsService } from '../../commons/shared/grid-options.service';
+import { UnitData } from '../../commons/shared/unit';
+import { Unit } from './unit';
+import { UnitService } from './unit.service';
 
 @Component({
   selector: 'app-units',
@@ -33,6 +33,9 @@ import { GridOptionsService } from '../../commons/shared/grid-options.service';
 })
 export class UnitComponent implements OnInit {
   public rowData!: UnitData[];
+  private unitService = inject(UnitService);
+  public translate = inject(TranslateService);
+  private gridOptionsService = inject(GridOptionsService);
   gridOptions = this.gridOptionsService.defaultGridOptions;
 
   colDefs: ColDef[] = [
@@ -47,6 +50,11 @@ export class UnitComponent implements OnInit {
       floatingFilter: true
     },
     {
+      headerName: "Organisation",
+      valueGetter: params => params.data?.organDto?.name,
+      flex: 2
+    },
+    {
       field: "viewDetails",
       cellRenderer: ActionCellComponent,
       cellRendererParams: {
@@ -55,19 +63,11 @@ export class UnitComponent implements OnInit {
     },
   ];
 
-  constructor(
-    private unitService: UnitService,
-    public translate: TranslateService,
-    private gridOptionsService: GridOptionsService
-  ) { }
+  constructor() { }
 
   ngOnInit(): void {
     this.unitService.getUnits().subscribe(result => {
-      this.rowData = this.toUnitsData(result);
+      this.rowData = result;
     });
-  }
-
-  toUnitsData(units: Unit[]): UnitData[] {
-    return [];
   }
 }

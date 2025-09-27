@@ -1,15 +1,16 @@
-import { Injectable } from "@angular/core";
-import { environment } from "../../../../environments/environment.dev";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { catchError, Observable, of, shareReplay, tap } from "rxjs";
-import { Contact, KeyValuePair } from "../common-topics";
+import { Injectable } from "@angular/core";
+import { catchError, Observable, shareReplay, tap } from "rxjs";
+import { environment } from "../../../../environments/environment.dev";
 import { EntityType } from "../../util-type";
+import { Contact } from "../common-topics";
+import { BaseService } from "./base-service";
 
 
 @Injectable({
     providedIn: 'root'
 })
-export class ContactService {
+export class ContactService extends BaseService {
     private contactCache = new Map<string, Observable<Contact[]>>();
     private readonly baseUrl = environment.gatewayBaseUrl;
     private servitusAssetsUrl = '/servitus';
@@ -18,7 +19,9 @@ export class ContactService {
         headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     };
 
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient) {
+        super('ContactService');
+    }
 
     public getContactsByEntity(id: number, entityType: EntityType): Observable<Contact[]> {
         const key = `${entityType}-${id}`;
@@ -51,9 +54,13 @@ export class ContactService {
 
     public updateContact(
         id: number,
-        fields: Record<string, any>
+        fields: Record<string, any>,
+        entityType: EntityType
     ): Observable<Contact> {
-        const fullEndpoint = `${this.baseUrl}${this.servitusAssetsUrl}/contact/${id}`;
+        const fullEndpoint = `${this.baseUrl}${this.servitusAssetsUrl}/${entityType}/contact/${id}`;
+
+        console.log(fullEndpoint, JSON.stringify(fields));
+
         return this.http.patch<Contact>(fullEndpoint, fields).pipe(
             tap(() =>
                 this.log(
@@ -62,23 +69,5 @@ export class ContactService {
             ),
             catchError(this.handleError<Contact>('updateContact'))
         );
-    }
-
-    log(message: string) {
-        console.debug(message); // TODO: change to MessageService instead
-    }
-
-    private handleError<T>(operation = 'operation', result?: T) {
-        return (error: any): Observable<T> => {
-
-            // TODO: send the error to remote logging infrastructure
-            console.error(error); // log to console instead
-
-            // TODO: better job of transforming error for user consumption
-            this.log(`${operation} failed: ${error.message}`);
-
-            // Let the app keep running by returning an empty result.
-            return of(result as T);
-        };
     }
 }

@@ -1,0 +1,72 @@
+.unit {
+    margin: auto 64px;
+    display: flex;
+    flex-direction: column;
+    gap: 4rem; // distancia entre os div
+    padding: 1rem;
+
+    &__nav-back {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    &__title {
+        text-align: center;
+    }
+
+    &__nav-button {
+        background-color: #3f51b5;
+    }
+
+
+    &__departments-grid {
+        --w: 400px;
+        --n: 3;
+        --m: 1;
+        display: grid;
+        grid-template-columns: repeat(auto-fit,
+                minmax(clamp(100% / (var(--n) + 1) + 0.1%, (var(--w) - 100vw) * 1000, 100% / (var(--m) + 1) + 0.1%),
+                    1fr));
+        gap: 10px;
+    }
+
+    &__department-card {
+        max-height: min-content;
+        font-size: medium;
+        cursor: pointer;
+    }
+
+    &__department-title {
+        display: flex;
+        gap: 10px;
+    }
+
+    &__department-name {
+        font-size: medium;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5 {
+        color: #3f51b5;
+        text-transform: uppercase;
+    }
+
+    &__address-contact-row {
+        display: grid;
+        grid-template-columns: 50% 50%;
+        gap: 1rem;
+        margin-right: 1rem;
+
+        @media (max-width: 768px) {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    &__addresses, &__contacts {
+        width: 100%;
+    }
+}

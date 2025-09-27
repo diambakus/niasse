@@ -1,0 +1,56 @@
+@let countries = countriesByLang$ | async;
+<div class="address-dialog">
+  <h2 mat-dialog-title>Edit Address</h2>
+
+  <mat-dialog-content [formGroup]="addressForm">
+    <mat-form-field appearance="fill" class="address-dialog__full-width">
+      <mat-label>Address Type</mat-label>
+      <mat-select formControlName="addressType">
+        <mat-option value="MAIN">MAIN</mat-option>
+        <mat-option value="SECONDARY">SECONDARY</mat-option>
+        <mat-option value="OTHER">OTHER</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="address-dialog__full-width">
+      <mat-label>Street</mat-label>
+      <input matInput formControlName="street" />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="address-dialog__full-width">
+      <mat-label>Number</mat-label>
+      <input matInput formControlName="addressNumber" />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="address-dialog__full-width">
+      <mat-label>City</mat-label>
+      <input matInput formControlName="city" />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="address-dialog__full-width">
+      <mat-label>State</mat-label>
+      <input matInput formControlName="state" />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="address-dialog__full-width">
+      <mat-label>Postal Code</mat-label>
+      <input matInput formControlName="postalCode" />
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Select a country</mat-label>
+      <input type="text" placeholder="Choose a country" formControlName="country" aria-label="Country" matInput
+        [matAutocomplete]="auto">
+      <mat-autocomplete #auto="matAutocomplete">
+        @for(country of countries; track country) {
+        <mat-option [value]="country">{{country}}</mat-option>
+        }
+      </mat-autocomplete>
+    </mat-form-field>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-button color="primary" (click)="save()">Save</button>
+  </mat-dialog-actions>
+</div>

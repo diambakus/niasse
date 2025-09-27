@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -8,6 +8,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { Organ } from '../organ';
 import { noSpecialChars } from '../../../commons/form-utils';
+import { OrganService } from '../organ.service';
+import { Router } from '@angular/router';
+import { firstValueFrom, of } from 'rxjs';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-create-organization',
@@ -25,7 +29,10 @@ import { noSpecialChars } from '../../../commons/form-utils';
 })
 export class CreateOrganizationComponent {
   organForm!: FormGroup;
-  organ!: Organ;
+  organService = inject(OrganService);
+  private router = inject(Router);
+  private localtion = inject(Location)
+
 
   constructor(private formBuilder: FormBuilder) {
     this.organForm = this.formBuilder.group({
@@ -34,10 +41,23 @@ export class CreateOrganizationComponent {
     });
   }
 
-  save() {
+  async save() {
     if (this.organForm.invalid) {
-      this.organForm.markAllAsTouched
+      this.organForm.markAllAsTouched();
       return;
     }
+
+    const organ: Organ = this.organForm.getRawValue();
+
+    try {
+      const savedOrgan = await firstValueFrom(this.organService.addOrgan(organ));
+      this.router.navigate(['/organs', savedOrgan.id]);
+    } catch (err) {
+      console.error('Failed to save organization', err);
+    }
+  }
+
+  cancel() {
+    this.localtion.back();
   }
 }

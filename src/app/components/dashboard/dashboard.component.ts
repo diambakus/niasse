@@ -27,8 +27,6 @@ import { ApplicationViewComponent } from './application-view/application-view.co
     MatListModule,
     TranslateModule,
     MatTooltip,
-    OrganDialogComponent,
-    UnitDialogComponent,
     ApplicationViewComponent,
   ],
   templateUrl: './dashboard.component.html',

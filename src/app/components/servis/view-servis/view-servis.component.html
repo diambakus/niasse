@@ -1,0 +1,56 @@
+@let servis = targetServis$ | async;
+<div class="servis">
+    <button mat-mini-fab [routerLink]="['/services']" color="primary">
+        <mat-icon>arrow_back</mat-icon>
+    </button>
+
+    <h2 class="servis__title">Service details</h2>
+
+    @if(servis) {
+    <div>
+        <div class="servis__compose-name-type-price">
+            <div class="servis__service-name">
+                <h4 style="text-transform: uppercase;">Service name:</h4>
+                <div style="font-size: medium;">{{servis.name}}</div>
+            </div>
+            <div class="servis__compose-service-type-price">
+                <div style="display: flex; flex-direction: row; gap: .5rem;">
+                    <h4 style="text-transform: uppercase;">Service Type:</h4>
+                    <div>
+                        {{servis.servisType}}
+                    </div>
+                </div>
+                <div style="display: flex; flex-direction: row; gap: .5rem;">
+                    <h4 style="text-transform: uppercase;">Price: </h4>
+                    <div>
+                        {{servis.price}} FCFA
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <h3 style="margin-bottom: 0;">Description</h3>
+            <mat-card>
+                <mat-card-content>
+                    {{servis.description}}
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
+    <div>
+        <h3 mat-subheader style="margin-bottom: 0;">The service is offered in the following units:</h3>
+        @for (unit of servis.unitsDto; track unit) {
+        <mat-list-item>
+            <mat-icon matListItemIcon style="margin: auto 0;">home</mat-icon>
+            <div matListItemTitle>
+                {{ unit.name }}
+            </div>
+            <div matListItemLine>
+                {{ unit.organDto.name }}
+            </div>
+        </mat-list-item>
+        }
+
+    </div>
+    }
+</div>

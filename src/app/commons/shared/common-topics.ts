@@ -11,7 +11,16 @@ export interface KeyValuePair {
     [key: string]: string
 }
 
-export interface Address {}
+export interface Address {
+    id?: number
+    street: string
+    addressNumber: number
+    city: string
+    country: string
+    postalCode: string
+    state?: string
+    addressType: string
+}
 
 export interface Contact {
    id?: number

@@ -3,14 +3,17 @@ import { canActivateAuthRole } from './auth/auth.guard';
 import { ForbiddenComponent } from './commons/forbidden/forbidden.component';
 import { PageNotFoundComponent } from './commons/page-not-found/page-not-found.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { CreateOrganizationComponent } from './components/organ/create-organization/create-organization.component';
 import { OrganDetailsComponent } from './components/organ/organ-details/organ-details.component';
 import { OrganComponent } from './components/organ/organ.component';
 import { ServisComponent } from './components/servis/servis.component';
 import { ShoppingCartComponent } from './components/shopping-cart/shopping-cart.component';
-import { UnitDetailsComponent } from './components/units/unit-details/unit-details.component';
-import { WelcomeComponent } from './components/welcome/welcome.component';
 import { UnitComponent } from './components/units/unit.component';
-import { CreateOrganizationComponent } from './components/organ/create-organization/create-organization.component';
+import { ViewUnitComponent } from './components/units/view-unit/view-unit.component';
+import { WelcomeComponent } from './components/welcome/welcome.component';
+import { CreateUnitComponent } from './components/units/create-unit/create-unit.component';
+import { CreateServisComponent } from './components/servis/create-servis/create-servis.component';
+import { ViewServisComponent } from './components/servis/view-servis/view-servis.component';
 
 
 export const routes: Routes = [
@@ -32,9 +35,15 @@ export const routes: Routes = [
     }, {
         path: 'units', component: UnitComponent, canActivate: [canActivateAuthRole]
     },{
-        path: 'units/:id', component: UnitDetailsComponent, canActivate: [canActivateAuthRole]
+        path: 'units/create', component: CreateUnitComponent, canActivate: [canActivateAuthRole]
+    },{
+        path: 'units/:id', component: ViewUnitComponent, canActivate: [canActivateAuthRole]
     }, { 
         path: 'services', component: ServisComponent, canActivate: [canActivateAuthRole] 
+    }, { 
+        path: 'services/create', component: CreateServisComponent, canActivate: [canActivateAuthRole] 
+    }, { 
+        path: 'services/:id', component: ViewServisComponent, canActivate: [canActivateAuthRole] 
     }, {
         path: '**', component: PageNotFoundComponent
     }, {

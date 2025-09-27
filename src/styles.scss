@@ -66,3 +66,32 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .ag-header {
   background-color: #E8EEF4;
 }
+
+
+.cdk-overlay-container .snackbar-success.mdc-snackbar {
+  --mdc-snackbar-container-color: #3f51b5 !important;
+  --mdc-snackbar-supporting-text-color: #fff !important;
+}
+
+.cdk-overlay-container .snackbar-error.mdc-snackbar {
+  --mdc-snackbar-container-color: #f44336 !important;
+  --mdc-snackbar-supporting-text-color: #fff !important;
+}
+
+.cdk-overlay-container .snackbar-success .mat-mdc-button,
+.cdk-overlay-container .snackbar-error .mat-mdc-button {
+  color: #fff !important;
+}
+
+// no-spinner
+/* Chrome, Safari, Edge, Opera */
+.no-spinner::-webkit-outer-spin-button,
+.no-spinner::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+.no-spinner {
+  -moz-appearance: textfield;
+}

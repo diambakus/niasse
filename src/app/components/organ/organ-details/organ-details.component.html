@@ -1,10 +1,12 @@
+@let selectedOrgan = selectedOrgan$ | async;
+
 <div class="organisation">
 
     <button mat-mini-fab [routerLink]="['/organs']" color="primary">
         <mat-icon>arrow_back</mat-icon>
     </button>
 
-
+    @if(selectedOrgan) {
     <h1 class="organisation__title">
         {{selectedOrgan.name}}
     </h1>
@@ -15,37 +17,46 @@
                 <mat-card-title>Description</mat-card-title>
             </mat-card-header>
             <mat-card-content>
-                {{selectedOrgan.note}}
+                {{selectedOrgan.description}}
             </mat-card-content>
         </mat-card>
     </div>
 
-    @if(true) {
-    <!--TODO: precisa implementar. Algo como: clica o botao adicionar contato se o usuário tiver permissao-->
+    @if(true) {<!--TODO: visivel se o usuário tiver permissao-->
     <div>
         <h4>Address and Contact Enhancement</h4>
-        <app-address-contact></app-address-contact>
+        <app-address-contact [organId]="organId()" (contactCreated)="onContactCreated($event)"
+            (addressCreated)="onAddressCreated($event)">
+        </app-address-contact>
     </div>
     }
 
     <div class="organisation__address-contact-row">
         <div class="organisation__addresses">
             <h4>Addresses Info</h4>
-            <mat-card>
-                <mat-card-content>
-                    <app-address-view-edit></app-address-view-edit>
-                </mat-card-content>
-            </mat-card>
+            @if (organId()) {
+            <app-address-view-edit [organId]="organId()" [newAddress]="newAddress"></app-address-view-edit>
+            } @else {
+            <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+            }
         </div>
         <div class="organisation__contacts">
             <h4>Contacts Info</h4>
-            <mat-card>
-                <mat-card-content>
-                    <app-contact-view-edit></app-contact-view-edit>
-                </mat-card-content>
-            </mat-card>
+            @if (organId()) {
+            <app-contact-view-edit [organId]="organId()" [newContact]="newContact"></app-contact-view-edit>
+            } @else {
+            <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+            }
         </div>
     </div>
+    } @else {
+    @if (errorMessage()) {
+    <mat-error>{{ errorMessage() }}</mat-error>
+    } @else {
+    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+    }
+    }
+
 
     <!--<div class="organisation__departments-title">
         <h2 class="organisation__departments-title-text">{{ 'ORGAN.DETAILS.TITLE' | translate }}</h2>

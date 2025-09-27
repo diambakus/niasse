@@ -1,0 +1,59 @@
+@let targetUnit = targetUnit$ | async;
+
+<div class="unit">
+
+    <button mat-mini-fab [routerLink]="['/units']" color="primary">
+        <mat-icon>arrow_back</mat-icon>
+    </button>
+
+    @if(targetUnit) {
+    <h1 class="unit__title">
+        {{targetUnit.name}}
+    </h1>
+
+    <div>
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title>Description</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                {{targetUnit.description}}
+            </mat-card-content>
+        </mat-card>
+    </div>
+
+    @if(true) {
+    <div>
+        <h4>Address and Contact Enhancement</h4>
+        <app-address-contact [unitId]="unitId()" (contactCreated)="onContactCreated($event)"
+            (addressCreated)="onAddressCreated($event)">
+        </app-address-contact>
+    </div>
+    }
+
+    <div class="unit__address-contact-row">
+        <div class="unit__addresses">
+            <h4>Addresses Info</h4>
+            @if (unitId()) {
+            <app-address-view-edit [unitId]="unitId()" [newAddress]="newAddress"></app-address-view-edit>
+            } @else {
+            <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+            }
+        </div>
+        <div class="unit__contacts">
+            <h4>Contacts Info</h4>
+            @if (unitId()) {
+            <app-contact-view-edit [unitId]="unitId()" [newContact]="newContact"></app-contact-view-edit>
+            } @else {
+            <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+            }
+        </div>
+    </div>
+    } @else {
+    @if (errorMessage()) {
+    <mat-error>{{ errorMessage() }}</mat-error>
+    } @else {
+    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+    }
+    }
+</div>

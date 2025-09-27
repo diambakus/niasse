@@ -44,5 +44,11 @@
     "LAST_PAGE": "Última página",
     "RANGE_LABEL_ZERO": "0 de {{length}}",
     "RANGE_LABEL": "{{start}} - {{end}} de {{length}}"
+  },
+  "SERVIS_TYPE": {
+    "service": "Servico",
+    "goods": "Bens",
+    "fine": "Multa",
+    "invalid": "Inválido"
   }
 }
