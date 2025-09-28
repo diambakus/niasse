@@ -1,3 +1,4 @@
+@let units = units$ | async;
 <h2 mat-dialog-title>Create a service</h2>
 <mat-dialog-content [formGroup]="servisForm">
     <div class="first-line-inputs-container">
@@ -27,18 +28,27 @@
             }
         </mat-form-field>
     </div>
+
     <mat-form-field appearance="outline" class="input-container">
-        <mat-select formControlName="units" multiple>
-            @for(unitView of simplifiedUnits; track unitView) {
-                <mat-option [value]="unitView.id">{{unitView.name}}</mat-option>
+        <mat-select formControlName="servisType" matInput placeholder="Choose a service type">
+            @for(servisType of servisTypes; track servisType) {
+            <mat-option [value]="servisType.key">{{ servisType.key }}</mat-option>
             }
         </mat-select>
-        @if(servisForm.get('units')?.hasError('required')) {
+        @if(servisForm.controls['servisType'].hasError('required')) {
         <mat-error>
-            Select at least one Unit.
+            Service type is <strong>required!</strong>
         </mat-error>
         }
     </mat-form-field>
+    <mat-form-field appearance="outline" class="input-container">
+        <mat-select formControlName="unitsDto" multiple placeholder="Choose the service offering units">
+            @for(unit of units; track unit.id) {
+            <mat-option [value]="unit">{{unit.name}}</mat-option>
+            }
+        </mat-select>
+    </mat-form-field>
+
     <mat-form-field appearance="outline" class="input-container">
         <textarea matInput formControlName="description" class="inputfield"
             placeholder="Describe the service"></textarea>

@@ -1,3 +1,4 @@
+@let organs = organs$ | async;
 <h2 mat-dialog-title>Create an Unit</h2>
 <mat-dialog-content [formGroup]="unitForm">
     <mat-form-field appearance="outline" class="input-container">
@@ -12,19 +13,22 @@
         </mat-error>
         }
     </mat-form-field>
+
     <mat-form-field appearance="outline" class="input-container">
-        <!--<mat-label>Select an organization</mat-label>-->
-        <mat-select formControlName="organId">
-            @for (food of foods; track food) {
-            <mat-option [value]="food.value">{{food.viewValue}}</mat-option>
+        <input type="text" placeholder="Choose an organisation" formControlName="organDto" aria-label="organisation"
+            matInput [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayOrganName">
+            @for(organ of organs; track organ.id) {
+            <mat-option [value]="organ">{{organ.name}}</mat-option>
             }
-        </mat-select>
-        @if(unitForm.get('organId')?.hasError('required')) {
+        </mat-autocomplete>
+        @if(unitForm.controls['organDto'].hasError('required')) {
         <mat-error>
-            Select an organization
+            Organisation is <strong>required</strong>
         </mat-error>
         }
     </mat-form-field>
+
     <mat-form-field appearance="outline" class="input-container">
         <textarea matInput formControlName="description" class="inputfield" placeholder="Describe the unit"></textarea>
         @if(unitForm.get('description')?.hasError('required')) {

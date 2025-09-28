@@ -1,13 +1,19 @@
-import { Component, inject } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { ServisData } from '../../../commons/shared/servis';
+import { TranslateService } from '@ngx-translate/core';
+import { Observable } from 'rxjs';
 import { noSpecialChars } from '../../../commons/form-utils';
-import { UnitSimplifiedView } from '../../../commons/shared/unit';
+import { enumToArray } from '../../../commons/shared/converter-utils';
+import { Servis, ServisType } from '../../servis/servis';
+import { Unit } from '../../units/unit';
+import { UnitService } from '../../units/unit.service';
 
 @Component({
   selector: 'app-servis-dialog',
@@ -18,24 +24,38 @@ import { UnitSimplifiedView } from '../../../commons/shared/unit';
     MatButtonModule,
     MatSelectModule,
     ReactiveFormsModule,
+    MatAutocompleteModule,
+    AsyncPipe
   ],
   templateUrl: './servis-dialog.component.html',
   styleUrl: './servis-dialog.component.scss'
 })
-export class ServisDialogComponent {
+export class ServisDialogComponent implements OnInit {
   private dialogRef = inject(MatDialogRef<ServisDialogComponent>);
-  private data = inject(MAT_DIALOG_DATA) as ServisData;
+  private data = inject(MAT_DIALOG_DATA) as Servis;
   servisForm!: FormGroup;
-  simplifiedUnits!:  UnitSimplifiedView[];
+  units$!: Observable<Unit[]>;
+  public translate = inject(TranslateService);
+  private unitService = inject(UnitService);
+  public servisTypes!: { key: string; value: ServisType }[];
 
   constructor(private formBuilder: FormBuilder) {
     this.servisForm = this.formBuilder.group({
-      name: [this.data.name, [Validators.required, Validators.minLength(1), noSpecialChars]],
-      description: [this.data.description, [Validators.required, Validators.minLength(10)]],
-      price: [this.data.price, [Validators.required, Validators.pattern(/^\s?\d{1,3}(?:\.\d{3})*(?:,\d{2})?\s?$/gm)]],
-      units: [this.data.units, [Validators.required]]
+      name: ['', [Validators.required, Validators.minLength(1), noSpecialChars]],
+      description: ['', [Validators.required, Validators.minLength(10)]],
+      servisType: ['', [Validators.required]],
+      price: [null, [Validators.required]],
+      unitsDto: [null, []]
     });
-    this.simplifiedUnits = this.provideSimplifiedUnits();
+  }
+
+  ngOnInit(): void {
+    this.units$ = this.unitService.getUnits();
+    this.servisTypes = enumToArray<ServisType>(ServisType);
+  }
+
+  displayUnitName(unit?: Unit): string {
+    return unit ? unit.name : '';
   }
 
   onCancel(): void {
@@ -43,7 +63,7 @@ export class ServisDialogComponent {
   }
 
   save() {
-    if(this.servisForm.invalid) {
+    if (this.servisForm.invalid) {
       this.servisForm.markAllAsTouched();
       return;
     }
@@ -51,16 +71,6 @@ export class ServisDialogComponent {
     this.dialogRef.close({
       ...this.data,
       ...this.servisForm.value
-    } as ServisData);
-  }
-
-  provideSimplifiedUnits(): UnitSimplifiedView[] {
-    return [
-      {id: 1, name: 'Unit A'},
-      {id: 2, name: 'Unit B'},
-      {id: 3, name: 'Unit M'},
-      {id: 4, name: 'Unit J'},
-      {id: 5, name: 'Unit P'}
-    ]
+    } as Servis);
   }
 }

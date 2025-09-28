@@ -6,7 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { noSpecialChars } from '../../../commons/form-utils';
-import { OrganData } from '../../../commons/shared/organ';
+import { Organ } from '../../organ/organ';
 
 @Component({
   selector: 'app-organ-dialog',
@@ -23,13 +23,13 @@ import { OrganData } from '../../../commons/shared/organ';
 })
 export class OrganDialogComponent {
   readonly dialogRef = inject(MatDialogRef<OrganDialogComponent>);
-  readonly data = inject(MAT_DIALOG_DATA) as OrganData;
+  readonly data = inject(MAT_DIALOG_DATA) as Organ;
   organForm!: FormGroup;
 
   constructor(private formBuilder: FormBuilder) {
     this.organForm = this.formBuilder.group({
-      name: [this.data.name, [Validators.required, Validators.minLength(1), noSpecialChars]],
-      description: [this.data.description, [Validators.required, Validators.minLength(10)]]
+      name: ['', [Validators.required, Validators.minLength(1), noSpecialChars]],
+      description: ['', [Validators.required, Validators.minLength(10)]]
     });
   }
 
@@ -46,6 +46,6 @@ export class OrganDialogComponent {
     this.dialogRef.close({
       ...this.data,
       ...this.organForm.value
-    } as OrganData);
+    } as Organ);
   }
 }

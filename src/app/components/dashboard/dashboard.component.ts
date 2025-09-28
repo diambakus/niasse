@@ -5,9 +5,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatTooltip } from '@angular/material/tooltip';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { EMPTY_ORGAN } from '../../commons/shared/organ';
 import { EMPTY_UNIT } from '../../commons/shared/unit';
 import { OrganDialogComponent } from './organ-dialog/organ-dialog.component';
 import { UnitDialogComponent } from './unit-dialog/unit-dialog.component';
@@ -15,6 +14,13 @@ import { EMPTY_SERVIS } from '../../commons/shared/servis';
 import { ServisDialogComponent } from './servis-dialog/servis-dialog.component';
 import { Application, ApplicationStatus } from '../../commons/shared/application';
 import { ApplicationViewComponent } from './application-view/application-view.component';
+import { Organ } from '../organ/organ';
+import { OrganService } from '../organ/organ.service';
+import { catchError, EMPTY, filter, firstValueFrom, switchMap } from 'rxjs';
+import { UnitService } from '../units/unit.service';
+import { Unit } from '../units/unit';
+import { ServisService } from '../servis/servis.service';
+import { Servis } from '../servis/servis';
 
 
 @Component({
@@ -35,10 +41,14 @@ import { ApplicationViewComponent } from './application-view/application-view.co
 export class DashboardComponent implements OnInit {
   applications: Application[] = [];
   readonly dialog = inject(MatDialog);
+  private organService = inject(OrganService);
+  private unitService = inject(UnitService);
+  private servisService = inject(ServisService);
+  public translate = inject(TranslateService);
+  private router = inject(Router);
 
-  constructor(
-    public translate: TranslateService
-  ) { }
+
+  constructor() { }
 
   ngOnInit(): void {
     this.applications = this.loadApplications();
@@ -58,48 +68,82 @@ export class DashboardComponent implements OnInit {
     return ApplicationStatus.PROCESSING.toString();
   }
 
-  dialogCreateOrganization(enterAnimationDuration: string, exitAnimationDuration: string): void {
-    let dialogRef = this.dialog.open(OrganDialogComponent, {
-      data: EMPTY_ORGAN,
+  dialogCreateOrganization(
+    enterAnimationDuration: string,
+    exitAnimationDuration: string
+  ): void {
+    this.dialog.open(OrganDialogComponent, {
       width: '30rem',
       enterAnimationDuration,
       exitAnimationDuration
     })
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result !== undefined) {
-        console.debug(JSON.stringify(result));
-      }
-    })
+      .afterClosed()
+      .pipe(
+        filter((resultOrgan: Organ | undefined): resultOrgan is Organ => !!resultOrgan),
+        switchMap(resultOrgan =>
+          this.organService.addOrgan(resultOrgan).pipe(
+            catchError(err => {
+              console.error('Failed to save organization', err);
+              return EMPTY;
+            })
+          )
+        )
+      )
+      .subscribe(savedOrgan => {
+        this.router.navigate(['/organs', savedOrgan.id]);
+      });
   }
 
-  dialogCreateUnit(enterAnimationDuration: string, exitAnimationDuration: string): void {
-    let dialogRef = this.dialog.open(UnitDialogComponent, {
-      data: EMPTY_UNIT,
-      width: '30rem',
+
+  dialogCreateUnit(
+    enterAnimationDuration: string,
+    exitAnimationDuration: string
+  ): void {
+    this.dialog.open(UnitDialogComponent, {
+      width: '50rem',
       enterAnimationDuration,
       exitAnimationDuration
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result !== undefined) {
-        console.debug(JSON.stringify(result));
-      }
     })
+      .afterClosed()
+      .pipe(
+        filter((resultUnit: Unit | undefined): resultUnit is Unit => !!resultUnit),
+        switchMap(resultUnit =>
+          this.unitService.addUnitForOrgan(resultUnit).pipe(
+            catchError(err => {
+              console.error('Failed to save unit', err);
+              return EMPTY;
+            })
+          )
+        )
+      )
+      .subscribe(savedUnit => {
+        this.router.navigate(['/units', savedUnit.id]);
+      });
   }
 
-  dialogCreateServis(enterAnimationDuration: string, exitAnimationDuration: string): void {
-    let dialogRef = this.dialog.open(ServisDialogComponent, {
-      data: EMPTY_SERVIS,
-      width: '40rem',
+  dialogCreateServis(
+    enterAnimationDuration: string,
+    exitAnimationDuration: string
+  ): void {
+    this.dialog.open(ServisDialogComponent, {
+      width: '50rem',
       enterAnimationDuration,
       exitAnimationDuration
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result !== undefined) {
-        console.debug(JSON.stringify(result));
-      }
     })
+      .afterClosed()
+      .pipe(
+        filter((resultServis: Servis | undefined): resultServis is Servis => !!resultServis),
+        switchMap(resultServis =>
+          this.servisService.addServis(resultServis).pipe(
+            catchError(err => {
+              console.error('Failed to save servis', err);
+              return EMPTY;
+            })
+          )
+        )
+      )
+      .subscribe(savedServis => {
+        this.router.navigate(['/services', savedServis.id]);
+      })
   }
 }
