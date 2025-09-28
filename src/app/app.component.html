@@ -3,12 +3,8 @@
     <app-topbar [titleInBar]="title"></app-topbar>
 
     <mat-sidenav-container class="app__ysidenav-container" autosize>
-      <mat-sidenav 
-        #snav 
-        [mode]="isMobile() ? 'over' : 'side'"
-        [fixedInViewport]="isMobile()" 
-        fixedTopGap="56"
-        opened="{{!isSideNavOpened}}">
+      <mat-sidenav #snav [mode]="isMobile() ? 'over' : 'side'" [fixedInViewport]="isMobile()" fixedTopGap="56"
+        [opened]="!isSideNavOpened">
         <app-drawer (toggleMenu)="toggleMenu()" [isOpened]="isSideNavOpened"></app-drawer>
       </mat-sidenav>
 
@@ -16,11 +12,10 @@
         <div class="app__content-container">
           <router-outlet></router-outlet>
         </div>
-
-        <div class="app__footer">
-          <app-footer></app-footer>
-        </div>
       </mat-sidenav-content>
     </mat-sidenav-container>
+    <div class="app__footer">
+      <app-footer></app-footer>
+    </div>
   </div>
 </div>
