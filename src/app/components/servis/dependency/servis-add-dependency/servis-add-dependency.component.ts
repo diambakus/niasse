@@ -7,7 +7,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { Dependency } from '../dependency';
-import { Observable } from 'rxjs';
+import { firstValueFrom, Observable } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { ServisService } from '../../servis.service';
 import { DependencyService } from '../dependency.service';
@@ -50,18 +50,17 @@ export class ServisAddDependencyComponent {
   }
 
   async save() {
-    console.debug(JSON.stringify(this.dependenciesChosenIds.getRawValue()))
-    /*if (this.servisForm.invalid) {
-      this.servisForm.markAllAsTouched();
+    if (this.dependenciesChosenIds.invalid) {
+      this.dependenciesChosenIds.markAllAsTouched();
       return;
     }
 
-    const servis: Servis = this.servisForm.getRawValue();
+    const chosenDependenciesId: number[]  = this.dependenciesChosenIds.getRawValue();
     try {
-      const savedServis = await firstValueFrom(this.servisService.addServis(servis));
-      this.router.navigate(['/services', savedServis.id]);
+      this.servisService.addDependencies(this.servisId, chosenDependenciesId);
+      // add snackbar
     } catch (error) {
       console.error('Failed to save servis!', error);
-    }*/
+    }
   }
 }
