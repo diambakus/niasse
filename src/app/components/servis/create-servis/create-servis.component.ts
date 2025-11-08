@@ -75,7 +75,6 @@ export class CreateServisComponent implements OnInit {
 
     const servis: Servis = this.servisForm.getRawValue();
     try {
-      console.debug(JSON.stringify(servis));
       const savedServis = await firstValueFrom(this.servisService.addServis(servis));
       this.router.navigate(['/services', savedServis.id]);
     } catch (error) {

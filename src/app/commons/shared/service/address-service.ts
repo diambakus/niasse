@@ -19,7 +19,7 @@ export class AddressService extends BaseService {
   }
 
   public getAddressesByEntity(id: number, entityType: EntityType): Observable<Address[]> {
-    const key = `${entityType}-${id}`;
+        const key = `${entityType}-${id}`;
 
     if (!this.addressCache.has(key)) {
       const fullEndpoint = `${this.baseUrl}${this.servitusAssetsUrl}/${entityType}/address/${id}`;

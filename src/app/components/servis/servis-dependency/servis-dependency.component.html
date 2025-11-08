@@ -1,0 +1,21 @@
+<mat-card>
+    <mat-card-title>Something here</mat-card-title>
+    <mat-card-content>More thing here</mat-card-content>
+</mat-card>
+<div style="display: flex; justify-content: flex-end; gap: 1rem; margin-top: 2rem;">
+    <mat-slide-toggle [ngModel]="addDependenciesVisible" (ngModelChange)="onAddToggleChange($event)" color="primary">
+        Slide and add the service target requirements</mat-slide-toggle>
+    <mat-slide-toggle [ngModel]="removeDependenciesVisible" (ngModelChange)="onRemoveToggleChange($event)"
+        color="primary">
+        Slide and remove the service target requirements
+    </mat-slide-toggle>
+</div>
+<div>
+    @if(addDependenciesVisible) {
+    <app-servis-add-dependency [servisId]="servisId()"></app-servis-add-dependency>
+    }
+
+    @if(removeDependenciesVisible) {
+    <app-servis-remove-dependency [servisId]="servisId()"></app-servis-remove-dependency>
+    }
+</div>

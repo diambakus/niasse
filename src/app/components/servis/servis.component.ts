@@ -14,6 +14,7 @@ import { ServisService } from './servis.service';
 import { GridOptionsService } from '../../commons/shared/grid-options.service';
 import { Observable } from 'rxjs';
 
+
 @Component({
   selector: 'app-servis',
   standalone: true,
@@ -26,7 +27,7 @@ import { Observable } from 'rxjs';
     RouterModule,
     MatTooltipModule,
     AgGridAngular,
-    MatButtonModule
+    MatButtonModule,
   ],
   templateUrl: './servis.component.html',
   styleUrl: './servis.component.scss'

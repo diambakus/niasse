@@ -1,9 +1,10 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { catchError, Observable, of, shareReplay, tap } from 'rxjs';
-import { Servis } from './servis';
-import { BaseService } from '../../commons/shared/service/base-service';
+import { catchError, Observable, shareReplay, tap } from 'rxjs';
 import { environment } from '../../../environments/environment.dev';
+import { BaseService } from '../../commons/shared/service/base-service';
+import { Dependency } from './dependency/dependency';
+import { Servis } from './servis';
 
 @Injectable({
   providedIn: 'root'
@@ -22,31 +23,32 @@ export class ServisService extends BaseService {
     super('ServisService');
   }
 
+  private servisListCache = new Map<string, Observable<Servis[]>>();
+
   getAll(forceRefresh = false): Observable<Servis[]> {
-    console.debug('...');
-    if (!this.servisCache$ || forceRefresh) {
-      this.servisCache$ = this.httpClient.get<Servis[]>(this.resourceUrl).pipe(
+    const url = this.resourceUrl;
+    if (forceRefresh || !this.servisListCache.has(url)) {
+      const request$ = this.httpClient.get<Servis[]>(url).pipe(
         tap(() => this.log('Fetched all services')),
         catchError(this.handleError<Servis[]>('getAll', [])),
-        shareReplay(1)
+        shareReplay({ bufferSize: 1, refCount: true })
       );
-    } else {
-      this.log('Fetched all servis (from cache)');
+      this.servisListCache.set(url, request$);
     }
-    return this.servisCache$;
+    return this.servisListCache.get(url)!;
   }
 
   getByUnit(unitId: number, forceRefresh = false): Observable<Servis[]> {
-    if (!this.servisCache$ || forceRefresh) {
-      this.servisCache$ = this.httpClient.get<Servis[]>(`${this.resourceUrl}/${unitId}`).pipe(
+    const url = `${this.resourceUrl}/${unitId}`;
+    if (forceRefresh || !this.servisListCache.has(url)) {
+      const request$ = this.httpClient.get<Servis[]>(url).pipe(
         tap(() => this.log(`Fetched all services by unit(${unitId})`)),
         catchError(this.handleError<Servis[]>('getByUnit', [])),
-        shareReplay(1)
+        shareReplay({ bufferSize: 1, refCount: true })
       );
-    } else {
-      this.log('Fetched all servis (from cache)');
+      this.servisListCache.set(url, request$);
     }
-    return this.servisCache$;
+    return this.servisListCache.get(url)!;
   }
 
   get(id: number, forceRefresh = false): Observable<Servis> {
@@ -55,7 +57,7 @@ export class ServisService extends BaseService {
         .pipe(
           tap(_ => this.log(`Fetched servis id=${id}`)),
           catchError(this.handleError<Servis>(`get id=${id}`)),
-          shareReplay(1)
+          shareReplay({ bufferSize: 1, refCount: true })
         );
       this.servisCacheMap.set(id, request$);
     } else {
@@ -70,15 +72,33 @@ export class ServisService extends BaseService {
       .pipe(
         tap((servis: Servis) => {
           this.log(`added servis w/ id=${servis.id}`);
-          this.clearCache();
+          this.invalidateCaches();
         }),
         catchError(this.handleError<Servis>('addServis'))
       );
   }
 
-  private clearCache(): void {
-    this.servisCache$ = undefined;
+  private dependencyCache = new Map<number, Observable<Dependency[]>>();
+
+  getDependencies(servisId: number, forceRefresh = false): Observable<Dependency[]> {
+    if (forceRefresh || !this.dependencyCache.has(servisId)) {
+      const request$ = this.httpClient
+        .get<Dependency[]>(`${this.resourceUrl}/${servisId}/dependencies`)
+        .pipe(
+          tap(() => this.log(`Fetched dependencies for service id=${servisId}`)),
+          catchError(this.handleError<Dependency[]>(`getDependencies id=${servisId}`, [])),
+          shareReplay({ bufferSize: 1, refCount: true })
+        );
+      this.dependencyCache.set(servisId, request$);
+    } else {
+      this.log(`Fetched dependencies for service id=${servisId} (from cache)`);
+    }
+    return this.dependencyCache.get(servisId)!;
+  }
+
+  private invalidateCaches(): void {
+    this.servisListCache.clear();
     this.servisCacheMap.clear();
-    this.log('Cache cleared');
+    this.log('All caches cleared after mutation');
   }
 }

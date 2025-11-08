@@ -1,0 +1,22 @@
+@let dependencies = dependencies$ | async;
+<div class="main-container">
+    <h3 class="text-center w-full text-[#3f51b5] uppercase">
+        Select and add service requirement(s)
+    </h3>
+    <mat-card style="width: 100%;">
+        <mat-card-content>
+            <mat-form-field style="width: 100%;">
+                <mat-label>Choose requirements</mat-label>
+                <mat-select [formControl]="dependenciesChosenIds" multiple>
+                    @for (dependency of dependencies; track dependency.id) {
+                    <mat-option [value]="dependency">{{dependency.title}}</mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
+        </mat-card-content>
+    </mat-card>
+    <mat-dialog-actions align="end">
+        <button mat-raised-button style="margin-right: 0.625rem;" (click)="cancel()">Cancel</button>
+        <button mat-flat-button color="primary" (click)="save()" type="button">Save</button>
+    </mat-dialog-actions>
+</div>

@@ -6,6 +6,7 @@ import { DashboardComponent } from '../../components/dashboard/dashboard.compone
 import { TopbarComponent } from '../../components/topbar/topbar.component';
 import { RouterModule } from '@angular/router';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatTreeModule } from '@angular/material/tree';
 import { UI_BASE_URL } from '../endpoints/enpoints-dev';
 
 @Component({
@@ -18,6 +19,7 @@ import { UI_BASE_URL } from '../endpoints/enpoints-dev';
     DashboardComponent,
     RouterModule,
     MatTooltipModule,
+    MatTreeModule
   ],
   templateUrl: './drawer.component.html',
   styleUrl: './drawer.component.scss'
@@ -32,9 +34,17 @@ export class DrawerComponent implements OnInit {
   }
 
   public routeLinks = [
-    { id: 1, link: `/services`, name: "Services", icon: "assignment" },
-    { id: 2, link: `/units`, name: "Units", icon: "home" },
-    { id: 3, link: `/organs`, name: "Organizations", icon: "home_work" },
-    { id: 4, link: '#', name: "Audit", icon: "content_paste_search"}
+    {
+      id: 1,
+      link: `/services`,
+      name: "Services",
+      icon: "assignment",
+      children: [
+        { id: 1, link: `/services/dependencies`, name: "Requirements", icon: "dynamic_form" },
+      ]
+    },
+    { id: 2, link: `/units`, name: "Units", icon: "home" },
+    { id: 3, link: `/organs`, name: "Organizations", icon: "home_work" },
+    { id: 4, link: '#', name: "Audit", icon: "content_paste_search" }
   ];
 }

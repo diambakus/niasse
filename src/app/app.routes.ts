@@ -14,13 +14,13 @@ import { WelcomeComponent } from './components/welcome/welcome.component';
 import { CreateUnitComponent } from './components/units/create-unit/create-unit.component';
 import { CreateServisComponent } from './components/servis/create-servis/create-servis.component';
 import { ViewServisComponent } from './components/servis/view-servis/view-servis.component';
+import { DependencyComponent } from './components/servis/dependency/dependency.component';
 
 
 export const routes: Routes = [
     {
         path: 'welcome', component: WelcomeComponent, data: { public: true }
-    },
-    {
+    }, {
         path: 'dashboard', component: DashboardComponent, canActivate: [canActivateAuthRole]
     }, {
         path: 'shoppingcart', component: ShoppingCartComponent, canActivate: [canActivateAuthRole]
@@ -30,18 +30,20 @@ export const routes: Routes = [
         path: 'organs', component: OrganComponent, canActivate: [canActivateAuthRole]
     }, {
         path: 'organs/create', component: CreateOrganizationComponent, canActivate: [canActivateAuthRole]
-    },{
+    }, {
         path: 'organs/:id', component: OrganDetailsComponent, canActivate: [canActivateAuthRole]
     }, {
         path: 'units', component: UnitComponent, canActivate: [canActivateAuthRole]
-    },{
+    }, {
         path: 'units/create', component: CreateUnitComponent, canActivate: [canActivateAuthRole]
-    },{
+    }, {
         path: 'units/:id', component: ViewUnitComponent, canActivate: [canActivateAuthRole]
     }, { 
         path: 'services', component: ServisComponent, canActivate: [canActivateAuthRole] 
     }, { 
         path: 'services/create', component: CreateServisComponent, canActivate: [canActivateAuthRole] 
+    }, { 
+        path: 'services/dependencies', component: DependencyComponent, canActivate: [canActivateAuthRole] 
     }, { 
         path: 'services/:id', component: ViewServisComponent, canActivate: [canActivateAuthRole] 
     }, {

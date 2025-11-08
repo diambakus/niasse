@@ -13,6 +13,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatError } from '@angular/material/form-field';
 import { MatListModule } from '@angular/material/list';
+import { ServisDependencyComponent } from '../servis-dependency/servis-dependency.component';
 
 @Component({
   selector: 'app-view-servis',
@@ -26,7 +27,8 @@ import { MatListModule } from '@angular/material/list';
     TranslateModule,
     MatProgressSpinnerModule,
     MatError,
-    MatListModule
+    MatListModule,
+    ServisDependencyComponent
   ],
   templateUrl: './view-servis.component.html',
   styleUrl: './view-servis.component.scss'

@@ -38,7 +38,11 @@
         </div>
     </div>
     <div>
-        <h3 mat-subheader style="margin-bottom: 0;">The service is offered in the following units:</h3>
+        <h3 class="servis__title">Service requirements</h3>
+        <app-servis-dependency></app-servis-dependency>
+    </div>
+    <div>
+        <h3 style="margin-bottom: 0;">The service is offered in the following units:</h3>
         @for (unit of servis.unitsDto; track unit) {
         <mat-list-item>
             <mat-icon matListItemIcon style="margin: auto 0;">home</mat-icon>

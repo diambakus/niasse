@@ -25,4 +25,57 @@
         </button>
         }
     </mat-list>
+
+  <!-- Navigation List
+  <mat-list class="nav-item">
+    @for (route of routeLinks; track route.id) {
+      <button
+        matButton
+        mat-list-item
+        routerLinkActive="active-link"
+        class="hover"
+        [routerLink]="{{route.link}}"
+      >
+        <div class="icon-name-wrapper">
+          <mat-icon
+            mat-list-icon
+            [matTooltip]="!isOpened ? route.name : null"
+            matTooltipPosition="right"
+          >
+            {{ route.icon }}
+          </mat-icon>
+
+          @if(isOpened) {
+            <p matLine>{{ route.name }}</p>
+          }
+
+          @if(route.children) {
+            <mat-icon class="expand-icon">expand_more</mat-icon>
+          }
+        </div>
+      </button>
+
+
+      @if(route.children) {
+        <div class="sub-list" *ngIf="isOpened">
+          <mat-list dense>
+            @for (child of route.children; track child.id) {
+              <button
+                matButton
+                mat-list-item
+                class="sub-item"
+                routerLink="{{ child.link }}"
+                routerLinkActive="active-link"
+              >
+                <div class="icon-name-wrapper">
+                  <mat-icon mat-list-icon>{{ child.icon }}</mat-icon>
+                  <p matLine>{{ child.name }}</p>
+                </div>
+              </button>
+            }
+          </mat-list>
+        </div>
+      }
+    }
+  </mat-list>-->
 </section>
