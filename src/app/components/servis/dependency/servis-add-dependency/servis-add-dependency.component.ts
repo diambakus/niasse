@@ -1,16 +1,17 @@
 import { AsyncPipe } from '@angular/common';
 import { Component, inject, Input } from '@angular/core';
-import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { Dependency } from '../dependency';
-import { firstValueFrom, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { ServisService } from '../../servis.service';
 import { DependencyService } from '../dependency.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-servis-add-dependency',
@@ -34,8 +35,9 @@ export class ServisAddDependencyComponent {
   private servisService = inject(ServisService);
   private dependencyService = inject(DependencyService);
   dependenciesChosenIds = new FormControl();
+  private snackBar = inject(MatSnackBar);
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor() {
   }
 
   ngOnInit(): void {
@@ -43,10 +45,7 @@ export class ServisAddDependencyComponent {
   }
 
   cancel(): void {
-    this.dependenciesChosenIds.reset();
-    this.dependenciesChosenIds.markAsPristine();
-    this.dependenciesChosenIds.markAsUntouched();
-    this.dependenciesChosenIds.updateValueAndValidity();
+    this.clearFields();
   }
 
   async save() {
@@ -55,12 +54,20 @@ export class ServisAddDependencyComponent {
       return;
     }
 
-    const chosenDependenciesId: number[]  = this.dependenciesChosenIds.getRawValue();
+    const chosenDependenciesId: number[] = this.dependenciesChosenIds.getRawValue();
     try {
-      this.servisService.addDependencies(this.servisId, chosenDependenciesId);
-      // add snackbar
+      await this.servisService.addDependencies(this.servisId, chosenDependenciesId);
+      this.clearFields();
+      this.snackBar.open('Chosen requirements added!', '', {duration: 5000});
     } catch (error) {
       console.error('Failed to save servis!', error);
     }
+  }
+
+  clearFields(): void {
+    this.dependenciesChosenIds.reset();
+    this.dependenciesChosenIds.markAsPristine();
+    this.dependenciesChosenIds.markAsUntouched();
+    this.dependenciesChosenIds.updateValueAndValidity();
   }
 }

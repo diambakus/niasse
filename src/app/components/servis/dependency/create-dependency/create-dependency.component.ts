@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { DependencyService } from '../dependency.service';
 import { noSpecialChars } from '../../../../commons/form-utils';
-import { Location } from '@angular/common';
 import { Dependency } from '../dependency';
 import { firstValueFrom } from 'rxjs';
 import { MatCardModule } from '@angular/material/card';
@@ -47,11 +46,12 @@ export class CreateDependencyComponent implements OnInit {
   }
 
   cancel() {
-    this.snackBar.open('Requirement registration canceled!', '', {duration: 3000});
     this.dependencyForm.reset();
     this.dependencyForm.markAsPristine();
     this.dependencyForm.markAsUntouched();
+    this.dependencyForm.markAllAsTouched();
     this.dependencyForm.updateValueAndValidity();
+    this.snackBar.open('Requirement registration canceled!', '', {duration: 3000});
   }
 
   async save() {
@@ -66,9 +66,8 @@ export class CreateDependencyComponent implements OnInit {
       this.router.navigate(['services/dependencies']);
       this.snackBar.open('Requirement dependency has been succefully saved!', '', {duration: 3000});
     } catch (error) {
-      this.snackBar.open('Failed to save Requirement denpendency!', '', {duration: 3000});
+      this.snackBar.open('Failed to save Requirement dependency!', '', {duration: 3000});
       console.error('Failed to save Dependency!', error);
     }
   }
-
 }
