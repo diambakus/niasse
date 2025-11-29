@@ -48,17 +48,17 @@ export class ServisAddDependencyComponent {
     this.clearFields();
   }
 
-  async save() {
+  save() {
     if (this.dependenciesChosenIds.invalid) {
       this.dependenciesChosenIds.markAllAsTouched();
       return;
     }
 
-    const chosenDependenciesId: number[] = this.dependenciesChosenIds.getRawValue();
+    const chosenDependencies: Dependency[] = this.dependenciesChosenIds.getRawValue();
     try {
-      await this.servisService.addDependencies(this.servisId, chosenDependenciesId);
+      this.servisService.addDependencies(this.servisId, chosenDependencies);
       this.clearFields();
-      this.snackBar.open('Chosen requirements added!', '', {duration: 5000});
+      this.snackBar.open('Chosen requirements added!', '', { duration: 5000 });
     } catch (error) {
       console.error('Failed to save servis!', error);
     }

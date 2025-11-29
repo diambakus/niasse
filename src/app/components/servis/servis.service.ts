@@ -96,11 +96,14 @@ export class ServisService extends BaseService {
     return this.dependencyCache.get(servisId)!;
   }
 
-  addDependencies(servisId: number, chosenDependenciesId: number[]) {
+  addDependencies(servisId: number, chosenDependencies: Dependency[]) {
+    const chosenDependenciesId = chosenDependencies.map(d => d.id);
+    console.debug(JSON.stringify(chosenDependenciesId));
     this.httpClient.post<number[]>(`${this.resourceUrl}/${servisId}/dependencies/add`, chosenDependenciesId)
-    .pipe(
-      tap(() => this.log(`Dependencies has been added for ${servisId}`))
-    );
+      .pipe(
+        tap(() => this.log(`Dependencies has been added for ${servisId}`))
+      )
+      .subscribe();
   }
 
   private invalidateCaches(): void {

@@ -1,7 +1,7 @@
 <div class="create_dependency_container">
     <form [formGroup]="dependencyForm" class="create_dependency_container__dependency-container">
     <mat-form-field class="create_dependency_container__dependency_name">
-        <mat-label>Type dependency title</mat-label>
+        <mat-label>Type requirement title</mat-label>
         <input matInput formControlName="title" class="inputfield">
         @if(dependencyForm.get('title')?.hasError('required')) {
         <mat-error>

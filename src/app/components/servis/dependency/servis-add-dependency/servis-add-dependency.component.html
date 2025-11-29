@@ -9,7 +9,7 @@
                 <mat-label>Choose requirements</mat-label>
                 <mat-select [formControl]="dependenciesChosenIds" multiple>
                     @for (dependency of dependencies; track dependency.id) {
-                    <mat-option [value]="dependency.id">{{dependency.title}}</mat-option>
+                    <mat-option [value]="dependency">{{dependency.title}}</mat-option>
                     }
                 </mat-select>
             </mat-form-field>
