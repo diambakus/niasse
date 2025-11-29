@@ -1,6 +1,19 @@
+@let dependencies = dependencies$ | async;
 <mat-card>
-    <mat-card-title>Something here</mat-card-title>
-    <mat-card-content>More thing here</mat-card-content>
+    <mat-card-title style="margin-left: 1rem;">
+        List of the requirements
+    </mat-card-title>
+    <mat-card-content>
+        @if(dependencies === null || dependencies === undefined || dependencies.length === 0) {
+            <p>No requirements</p>
+        } @else {
+            <mat-chip-set>
+                @for(dependency of dependencies; track dependency.id) {
+                    <mat-chip>{{dependency.title}}</mat-chip>
+                }
+            </mat-chip-set>
+        }
+    </mat-card-content>
 </mat-card>
 <div style="display: flex; justify-content: flex-end; gap: 1rem; margin-top: 2rem;">
     <mat-slide-toggle [ngModel]="addDependenciesVisible" (ngModelChange)="onAddToggleChange($event)" color="primary">

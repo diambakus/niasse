@@ -12,8 +12,10 @@ import { ServisAddDependencyComponent } from '../dependency/servis-add-dependenc
 import { ServisRemoveDependencyComponent } from '../dependency/servis-remove-dependency/servis-remove-dependency.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { FormsModule } from '@angular/forms';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { filter, map } from 'rxjs';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { catchError, filter, map, of, switchMap } from 'rxjs';
+import { ServisService } from '../servis.service';
+import { MatChipsModule } from '@angular/material/chips';
 
 @Component({
   selector: 'app-servis-dependency',
@@ -31,7 +33,8 @@ import { filter, map } from 'rxjs';
     ServisAddDependencyComponent,
     ServisRemoveDependencyComponent,
     MatSlideToggleModule,
-    FormsModule
+    FormsModule,
+    MatChipsModule,
   ],
   templateUrl: './servis-dependency.component.html',
   styleUrl: './servis-dependency.component.scss'
@@ -40,6 +43,7 @@ export class ServisDependencyComponent {
   public addDependenciesVisible: boolean = false;
   public removeDependenciesVisible: boolean = false;
   private route = inject(ActivatedRoute);
+  private servisService = inject(ServisService);
 
   readonly servisId = toSignal(
     this.route.paramMap.pipe(
@@ -48,6 +52,15 @@ export class ServisDependencyComponent {
       map(id => Number(id))
     ),
     { initialValue: 0 }
+  );
+
+  readonly dependencies$ = toObservable(this.servisId).pipe(
+    filter((id): id is number => id !== undefined),
+    switchMap(id => this.servisService.getDependencies(id, true)),
+    catchError(err => {
+      console.error(err);
+      return of(undefined);
+    })
   );
 
   onAddToggleChange(checked: boolean): void {
