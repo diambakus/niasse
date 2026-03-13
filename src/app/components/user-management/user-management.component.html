@@ -1,0 +1,98 @@
+<div class="main-container compact-form-theme">
+    <h2 class="text-2xl font-semibold mb-6">Create User</h2>
+
+    <form [formGroup]="form" (ngSubmit)="submit()" class="flex flex-col gap-6">
+
+        <!-- CARD 1 -->
+        <mat-card class="w-full p-10 shadow-lg rounded-2xl">
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+
+                <mat-form-field appearance="outline" class="w-full">
+                    <input matInput formControlName="username" placeholder="Type username" />
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="w-full">
+                    <input matInput formControlName="displayName" placeholder="Type display name" />
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="w-full">
+                    <input matInput formControlName="firstname" placeholder="Type first name" />
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="w-full">
+                    <input matInput formControlName="lastname" placeholder="Type last name" />
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="w-full">
+                    <input matInput formControlName="email" placeholder="Type E-mail" />
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="w-full">
+                    <input matInput type="password" formControlName="rawPassword" placeholder="Type password" />
+                </mat-form-field>
+
+            </div>
+        </mat-card>
+
+        <!-- CARD 2 -->
+        <mat-card class="w-full p-10 shadow-lg rounded-2xl">
+
+            <h3 class="text-lg font-semibold mb-6">
+                Select unit(s) and assign role(s)
+            </h3>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                <mat-form-field appearance="outline" class="w-full">
+                    <mat-select placeholder="Select organization"
+                        (selectionChange)="onOrganizationChange($event.value)">
+                        <mat-option value="" disabled>Select organization</mat-option>
+                        @for (org of organizations(); track org.id) {
+                        <mat-option [value]="org.id">
+                            {{ org.name }}
+                        </mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="w-full">
+                    <mat-select formControlName="unitsId" multiple>
+                        <mat-option value="" disabled>Select units</mat-option>
+                        @for (unit of units(); track unit) {
+                        <mat-option [value]="unit.id">
+                            Unit {{ unit.name }}
+                        </mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="w-full">
+                    <mat-select formControlName="role">
+                        <mat-option value="" disabled>Select user role</mat-option>
+                        @for (role of roles; track role) {
+                        <mat-option [value]="role">
+                            {{ role }}
+                        </mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+        </mat-card>
+
+        <!-- BUTTON -->
+        <div class="flex justify-end mt-2">
+            <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid || loading()"
+                class="min-w-40">
+                Create User
+            </button>
+        </div>
+
+        @if(success()) {
+        <p class="text-green-600 font-medium">
+            User successfully created!
+        </p>
+        }
+
+    </form>
+</div>

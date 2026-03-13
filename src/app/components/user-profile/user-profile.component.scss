@@ -1,0 +1,184 @@
+.user-profile {
+    margin: auto 64px;
+    display: flex;
+    flex-direction: column;
+    gap: 4rem; // distancia entre os div
+    padding: 1rem;
+
+    &__nav-back {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    &__title {
+        text-align: center;
+    }
+
+    &__nav-button {
+        background-color: #3f51b5;
+    }
+
+
+    &__departments-grid {
+        --w: 400px;
+        --n: 3;
+        --m: 1;
+        display: grid;
+        grid-template-columns: repeat(auto-fit,
+                minmax(clamp(100% / (var(--n) + 1) + 0.1%, (var(--w) - 100vw) * 1000, 100% / (var(--m) + 1) + 0.1%),
+                    1fr));
+        gap: 10px;
+    }
+
+    &__department-card {
+        max-height: min-content;
+        font-size: medium;
+        cursor: pointer;
+    }
+
+    &__department-title {
+        display: flex;
+        gap: 10px;
+    }
+
+    &__department-name {
+        font-size: medium;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5 {
+        color: #3f51b5;
+        text-transform: uppercase;
+    }
+
+    &__address-contact-row {
+        display: grid;
+        grid-template-columns: 50% 50%;
+        gap: 1rem;
+        margin-right: 1rem;
+
+        @media (max-width: 768px) {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    &__addresses,
+    &__contacts {
+        width: 100%;
+    }
+}
+
+// ################################################## profile card content style//
+h1,
+h2,
+h3,
+h4,
+h5 {
+    color: #3f51b5;
+    text-transform: uppercase;
+}
+
+.profile-container {
+    max-width: 900px;
+    margin: auto;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.loading-container {
+    display: flex;
+    justify-content: center;
+    padding: 3rem;
+}
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 2rem;
+}
+
+.avatar-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.avatar {
+    font-size: 90px;
+    height: 90px;
+    width: 90px;
+    color: #9ca3af;
+}
+
+.user-title h2 {
+    margin: 0;
+    font-weight: 600;
+}
+
+.role {
+    color: #6b7280;
+}
+
+.profile-card {
+    padding: 2rem;
+}
+
+.profile-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+}
+
+.profile-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.label {
+    font-size: 0.85rem;
+    color: #6b7280;
+}
+
+.value {
+    font-weight: 500;
+}
+
+@media (max-width: 768px) {
+    .profile-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .password-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+// ################################################## password card content style//
+
+.password-card {
+    padding: 2rem;
+}
+
+.section-title {
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+}
+
+.password-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+
+.password-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1.5rem;
+}

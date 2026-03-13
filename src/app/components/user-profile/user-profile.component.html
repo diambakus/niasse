@@ -1,0 +1,105 @@
+<div class="profile-container compact-form-theme">
+
+    <!-- Loading -->
+    @if (loading()) {
+    <div class="loading-container">
+        <mat-spinner diameter="40"></mat-spinner>
+    </div>
+    }
+
+    <!-- Error -->
+    @if (error()) {
+    <mat-card class="error-card">
+        Failed to load user profile
+    </mat-card>
+    }
+
+    <!-- Profile -->
+    @if (currentUser(); as user) {
+
+    <!-- Profile Header -->
+    <mat-card class="profile-header">
+
+        <div class="avatar-container">
+            <mat-icon class="avatar">account_circle</mat-icon>
+        </div>
+
+        <div class="user-title">
+            <h2>{{ user.displayName }}</h2>
+            <p class="role">{{ user.role }}</p>
+        </div>
+
+    </mat-card>
+
+
+    <!-- Profile Details -->
+    <mat-card class="profile-card">
+
+        <div class="profile-grid">
+
+            <div class="profile-item">
+                <span class="label">Role</span>
+                <span class="value">{{ user.role }}</span>
+            </div>
+
+            <div class="profile-item">
+                <span class="label">Display Name</span>
+                <span class="value">{{ user.displayName }}</span>
+            </div>
+
+        </div>
+
+    </mat-card>
+
+    <!-- UPDATE PASSWORD -->
+    <mat-card class="password-card">
+
+        <h3 class="section-title">Update Password</h3>
+
+        <form [formGroup]="passwordForm" (ngSubmit)="updatePassword()">
+
+            <div class="password-grid">
+
+                <!-- Current Password -->
+                <mat-form-field appearance="outline" class="w-full">
+                    <input matInput type="password" formControlName="currentPassword" placeholder="Current password">
+                </mat-form-field>
+
+                <!-- New Password -->
+                <mat-form-field appearance="outline" class="w-full">
+                    <input matInput type="password" formControlName="newPassword" placeholder="New password">
+                </mat-form-field>
+                
+                <!-- Confirm Password -->
+                <mat-form-field appearance="outline" class="w-full">
+                    <input matInput type="password" formControlName="confirmPassword"
+                        placeholder="Confirm new password">
+                </mat-form-field>
+
+                <mat-error *ngIf="passwordForm.controls.newPassword.hasError('pattern')">
+                    Password must contain:
+                    • 12 characters minimum
+                    • 2 uppercase letters
+                    • 2 lowercase letters
+                    • 2 numbers
+                    • 2 special characters
+                </mat-error>
+                <mat-hint>
+                    <p style="font-weight: bold;">Minimum 12 characters, including: 2 uppercase, 2 lowercase, 2 numbers, 2 symbols</p>
+                </mat-hint>
+            </div>
+
+            <div class="password-actions">
+                <button mat-raised-button color="primary" type="submit" [disabled]="passwordForm.invalid || isUpdating()">
+
+                    Update Password
+
+                </button>
+            </div>
+
+        </form>
+
+    </mat-card>
+    }
+
+</div>

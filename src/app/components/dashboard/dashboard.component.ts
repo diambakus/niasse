@@ -21,6 +21,9 @@ import { UnitService } from '../units/unit.service';
 import { Unit } from '../units/unit';
 import { ServisService } from '../servis/servis.service';
 import { Servis } from '../servis/servis';
+import { AuthService } from '../../auth/auth.service';
+import { ApplicationService } from '../applications/application.service';
+
 
 
 @Component({
@@ -46,11 +49,16 @@ export class DashboardComponent implements OnInit {
   private servisService = inject(ServisService);
   public translate = inject(TranslateService);
   private router = inject(Router);
+  public auth = inject(AuthService);
+  private applicationService = inject(ApplicationService);
 
 
   constructor() { }
 
   ngOnInit(): void {
+    if (this.auth.authenticated()) {
+
+    }
     this.applications = this.loadApplications();
   }
 
@@ -146,4 +154,9 @@ export class DashboardComponent implements OnInit {
         this.router.navigate(['/services', savedServis.id]);
       })
   }
+
+  splitUnassignedAndSignedApplicationsForEmployee(employeeId: string) {
+    this.applicationService.getUnfilteredApplicationsForEmployeeDashboard(employeeId)
+  }
+  
 }

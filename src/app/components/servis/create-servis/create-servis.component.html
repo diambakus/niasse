@@ -1,12 +1,12 @@
 @let units = units$ | async;
-<div class="create-servis-container ">
+<div class="create-servis-container compact-form-theme">
     <h2 class="create-servis-container__title">Create service</h2>
     <mat-card class="create-servis-container__card-container">
         <mat-dialog-content [formGroup]="servisForm">
             <div class="create-servis-container__rowed-name-type-unit">
                 <mat-form-field class="create-servis-container__input-name-container">
-                    <mat-label>Type service name</mat-label>
-                    <input matInput formControlName="name" class="create-servis-container__inputfield">
+                    <input matInput formControlName="name" class="create-servis-container__inputfield"
+                        placeholder="Type service name">
                     @if(servisForm.get('name')?.hasError('required')) {
                     <mat-error>
                         Service name is <strong>required!</strong>
@@ -18,8 +18,31 @@
                     }
                 </mat-form-field>
                 <mat-form-field>
-                    <mat-label>Select service type</mat-label>
-                    <mat-select formControlName="servisType" matInput>
+                    <input type="number" placeholder="Type price" formControlName="price" aria-label="price" matInput
+                        class="no-spinner" appearance="outline">
+                    @if(servisForm.get('price')?.hasError('required')) {
+                    <mat-error>
+                        Servis price is <strong>required!</strong>
+                    </mat-error>
+                    }
+                </mat-form-field>
+            </div>
+            <div class="create-servis-container__rowed-name-type-unit">
+                <mat-form-field>
+                    <mat-select formControlName="unitsDto" multiple aria-placeholder="Select units">
+                        <mat-option value="" disabled>
+                            Select units
+                        </mat-option>
+                        @for(unit of units; track unit.id) {
+                        <mat-option [value]="unit">{{unit.name}}</mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-select formControlName="servisType" matInput aria-placeholder="Select service type">
+                        <mat-option value="" disabled>
+                            Select service type
+                        </mat-option>
                         @for(servisType of servisTypes; track servisType) {
                         <mat-option [value]="servisType.key">{{ servisType.key }}</mat-option>
                         }
@@ -27,26 +50,6 @@
                     @if(servisForm.controls['servisType'].hasError('required')) {
                     <mat-error>
                         Service type is <strong>required!</strong>
-                    </mat-error>
-                    }
-                </mat-form-field>
-            </div>
-            <div class="create-servis-container__rowed-name-type-unit">
-                <mat-form-field>
-                    <mat-label>Select units</mat-label>
-                    <mat-select formControlName="unitsDto" multiple>
-                        @for(unit of units; track unit.id) {
-                        <mat-option [value]="unit">{{unit.name}}</mat-option>
-                        }
-                    </mat-select>
-                </mat-form-field>
-                <mat-form-field>
-                    <mat-label>Type the service price</mat-label>
-                    <input type="number" placeholder="Select unit(s)" formControlName="price" aria-label="price"
-                        matInput class="no-spinner" appearance="outline">
-                    @if(servisForm.get('price')?.hasError('required')) {
-                    <mat-error>
-                        Servis price is <strong>required!</strong>
                     </mat-error>
                     }
                 </mat-form-field>

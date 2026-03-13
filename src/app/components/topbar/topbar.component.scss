@@ -5,6 +5,7 @@
   position: fixed;
   height: auto;
   z-index: 2;
+  color: white;
 
   &__title {
     margin-right: 1.5rem;
@@ -34,28 +35,13 @@
     }
   }
 
-  &__icon-container {
-    position: relative;
-    display: inline-block;
-    width: 48px;
-    height: 48px;
-
-    &__icon {
-      position: absolute;
-      font-size: 48px;
-
-      &--schedule {
-        color: #ff9800;
-        top: 0;
-        left: 0;
-      }
-
-      &--construction {
-        color: #4caf50;
-        top: 0;
-        right: 0;
-        opacity: 0.8;
-      }
+  &__logo-btn {
+    width: 2rem;
+    height: 2rem;
+    color: inherit;
+    &--logo-icon {
+      height: 2rem;
+      width: 2rem;
     }
   }
 
@@ -138,7 +124,6 @@
   }
 }
 
-// Responsivo
 @media (max-width: 600px) {
   .toolbar__dropdown__content {
     min-width: 100%;

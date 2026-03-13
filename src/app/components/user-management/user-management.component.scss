@@ -1,4 +1,4 @@
-.create-servis-container {
+.main-container {
     margin: auto 64px;
     display: grid;
     grid-template-rows: auto auto;
@@ -17,7 +17,6 @@
         grid-template-columns: 50% 50%;
         gap: 1rem;
         margin-right: 1rem;
-        margin-bottom: 1rem;
 
         @media (max-width: 768px) {
             grid-template-columns: 1fr;

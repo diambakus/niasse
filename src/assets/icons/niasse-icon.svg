@@ -1,0 +1,24 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.8"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <!-- Head -->
+  <circle cx="12" cy="10" r="4"/>
+
+  <!-- Horns -->
+  <path d="M9 7 L6.5 4.5"/>
+  <path d="M15 7 L17.5 4.5"/>
+
+  <!-- Eyes -->
+  <circle cx="10.5" cy="10" r="0.5" fill="currentColor"/>
+  <circle cx="13.5" cy="10" r="0.5" fill="currentColor"/>
+
+  <!-- Sticks -->
+  <line x1="5" y1="14" x2="5" y2="21"/>
+  <line x1="19" y1="14" x2="19" y2="21"/>
+</svg>

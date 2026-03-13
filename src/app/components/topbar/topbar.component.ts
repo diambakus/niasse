@@ -4,14 +4,14 @@ import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
 import { MatListModule } from "@angular/material/list";
 import { MatMenuModule } from "@angular/material/menu";
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
-import { CartService } from '../../commons/shared/cart.service';
-import { AuthService } from '../../auth/auth.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { KeycloakProfile } from 'keycloak-js';
-import { MatSidenavModule } from '@angular/material/sidenav';
+import { AuthService } from '../../auth/auth.service';
+import { CartService } from '../../commons/shared/cart.service';
 
 
 @Component({
@@ -26,7 +26,8 @@ import { MatSidenavModule } from '@angular/material/sidenav';
     MatBadgeModule,
     MatTooltipModule,
     TranslateModule,
-    MatSidenavModule
+    MatSidenavModule,
+    MatProgressSpinnerModule
   ],
   templateUrl: './topbar.component.html',
   styleUrl: './topbar.component.scss'
@@ -34,7 +35,6 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 export class TopbarComponent implements OnInit, OnDestroy, OnChanges {
   @Input() titleInBar?: string;
   applicationsInTheCart: number = 0;
-  email?: string;
   @Output() toggleDrawerEvent = new EventEmitter<void>();
 
   constructor(
@@ -51,11 +51,7 @@ export class TopbarComponent implements OnInit, OnDestroy, OnChanges {
     return this.applicationsInTheCart !== 0;
   }
 
-  async ngOnInit() {
-    if (this.auth.isAuthenticated()) {
-      const profile: KeycloakProfile | null = await this.auth.getUserProfile();
-      this.email = profile?.email;
-    }
+  ngOnInit() {
     console.debug(`Numbers of items in the cart: ${this.applicationsInTheCart}`)
   }
 

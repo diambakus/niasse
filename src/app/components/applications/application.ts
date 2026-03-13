@@ -1,10 +1,12 @@
 export interface Application {
     id?: number
-    commodityId: number
-    walletId: number
-    status: String
-    requestDate: Date,
-    assignedCode: string
+    status: string
+    requestedToUnitId: string
+    assigneeId: string
+    name: string,
+    email: string,
+    price: number,
+    created: string
 }
 
 export enum ApplicationStatus {

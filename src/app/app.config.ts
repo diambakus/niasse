@@ -13,11 +13,11 @@ import {
   withAutoRefreshToken
 } from 'keycloak-angular';
 import { routes } from './app.routes';
-
 import { TranslateLoader, TranslateModule } from "@ngx-translate/core";
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { environment } from '../environments/environment.dev';
 import { GetPaginatorIntlProvider, I18nInitializerProvider } from './i18n';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 
 export const provideKeycloakAngular = () =>
   provideKeycloak({
@@ -43,9 +43,13 @@ export function httpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './i18n/', '.json');
 }
 
+const gatewayCondition = createInterceptorCondition<IncludeBearerTokenCondition>({
+  urlPattern: environment.production ? /\/(servitus|rogator|stoa)\/.*/i : /^(http:\/\/localhost:8094\/(servitus|rogator|stoa)\/.*)$/i,
+  bearerPrefix: 'Bearer'
+});
 
-const localhostUrlCondition = createInterceptorCondition<IncludeBearerTokenCondition>({
-  urlPattern: /^(http:\/\/localhost:8181)(\/.*)?$/i, // replace localhost:8181 with stoa address
+const adminApiCondition = createInterceptorCondition({
+  urlPattern: /^https:\/\/admin-api\.company\.com\/.*/i,
   bearerPrefix: 'Bearer'
 });
 
@@ -54,7 +58,7 @@ export const appConfig: ApplicationConfig = {
     provideKeycloakAngular(),
     {
       provide: INCLUDE_BEARER_TOKEN_INTERCEPTOR_CONFIG,
-      useValue: [localhostUrlCondition]
+      useValue: [gatewayCondition]
     },
     provideAnimationsAsync(),
     provideHttpClient(withInterceptorsFromDi(), withInterceptors([includeBearerTokenInterceptor])),
@@ -67,6 +71,13 @@ export const appConfig: ApplicationConfig = {
         },
       })
     ),
+    {
+      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+      useValue: {
+        appearance: 'outline',
+        subscriptSizing: 'dynamic'
+      }
+    },
     GetPaginatorIntlProvider,
     I18nInitializerProvider,
     provideZoneChangeDetection({ eventCoalescing: true }),

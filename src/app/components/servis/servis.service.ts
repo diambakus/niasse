@@ -13,7 +13,6 @@ export class ServisService extends BaseService {
 
   private readonly resourceUrl = `${environment.gatewayBaseUrl}/servitus/servis`
   private httpClient = inject(HttpClient);
-  private servisCache$?: Observable<Servis[]>;
   private servisCacheMap = new Map<number, Observable<Servis>>;
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -98,7 +97,6 @@ export class ServisService extends BaseService {
 
   addDependencies(servisId: number, chosenDependencies: Dependency[]) {
     const chosenDependenciesId = chosenDependencies.map(d => d.id);
-    console.debug(JSON.stringify(chosenDependenciesId));
     this.httpClient.post<number[]>(`${this.resourceUrl}/${servisId}/dependencies/add`, chosenDependenciesId)
       .pipe(
         tap(() => this.log(`Dependencies has been added for ${servisId}`))

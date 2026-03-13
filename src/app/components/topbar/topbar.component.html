@@ -1,25 +1,28 @@
 <mat-toolbar color="primary" class="toolbar mat-elevation-z8">
 
     <div class="toolbar__links-menu">
-        @if (true) {
-        <button mat-icon-button routerLink="/dashboard" aria-label="Example icon-button with menu icon">
-            <!--<mat-icon class="toolbar__icon-container__icon toolbar__icon-container__icon--schedule">schedule_send</mat-icon>-->
-            <mat-icon>construction</mat-icon>
+        <button class="toolbar__logo-btn" [routerLink]="auth.authenticated() ? '/dashboard' : null"
+            matTooltip="{{ auth.authenticated() ? 'Go to Dashboard' : 'Login required' }}">
+            <svg class="toolbar__logo-btn--logo-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <!-- Head -->
+                <circle cx="12" cy="10" r="4" />
+                <!-- Horns -->
+                <path d="M9 7 L6.5 4.5" />
+                <path d="M15 7 L17.5 4.5" />
+                <!-- Eyes -->
+                <circle cx="10.5" cy="10" r="0.5" fill="currentColor" />
+                <circle cx="13.5" cy="10" r="0.5" fill="currentColor" />
+                <!-- Sticks -->
+                <line x1="5" y1="14" x2="5" y2="21" />
+                <line x1="19" y1="14" x2="19" y2="21" />
+            </svg>
         </button>
-        } @else {
-        <button mat-icon-button aria-label="Example icon-button with menu icon" disabled>
-            <!--<mat-icon class="toolbar__icon-container__icon toolbar__icon-container__icon--schedule">schedule_send</mat-icon>-->
-            <mat-icon>construction</mat-icon>
-        </button>
-        }
+
 
         <span class="toolbar__title" routerLink="/dashboard">{{ titleInBar }}</span>
 
-        @if(!hasRequestApplication()) {
-        <div class="toolbar__nav-links" matTooltip="No document selected">
-            <mat-icon class="toolbar__nav-links__link">folder</mat-icon>
-        </div>
-        } @else {
+        @if(hasRequestApplication()) {
         <button routerLink="/shoppingcart" mat-icon-button [matBadge]="applicationsInTheCart" matBadgePosition="after">
             <mat-icon>folder_open</mat-icon>
         </button>
@@ -28,26 +31,37 @@
 
     <span class="toolbar__spacer"></span>
 
-    @if(auth.isAuthenticated()) {
+    @if(auth.authenticated()) {
     <div id="infoProfile">
         <div class="toolbar__dropdown">
             <button mat-button class="toolbar__dropdown__button" aria-haspopup="true" aria-expanded="false">
-                {{ email }}
+                @if (auth.currentUserLoading()) {
+                <mat-spinner></mat-spinner>
+                }
+
+                @if (auth.currentUserError()) {
+                <p class="text-red-600">Failed to load user</p>
+                }
+
+                @if (auth.currentUser()) {
+                Welcome, {{ auth.currentUser()?.displayName }}
+                }
                 <mat-icon>arrow_drop_down</mat-icon>
             </button>
 
             <div class="toolbar__dropdown__content">
                 <div class="toolbar__dropdown__content__title">{{ 'TOPBAR.YOUR_ACCOUNT' | translate }}</div>
                 <ul>
-                    <li class="toolbar__dropdown__content__item" (click)="auth.logout()">{{ 'TOPBAR.LOGOUT' | translate
-                        }}</li>
+                    <li class="toolbar__dropdown__content__item" routerLink="/my-user-profile">My user profile</li>
+                    <li class="toolbar__dropdown__content__item" (click)="auth.logout()">{{ 'TOPBAR.LOGOUT' |
+                        translate}}</li>
                 </ul>
             </div>
         </div>
     </div>
     }
 
-    @if(!auth.isAuthenticated()) {
+    @if(!auth.authenticated()) {
     <button mat-button (click)="auth.login()">{{ 'TOPBAR.LOGIN' | translate }}</button>
     }
 

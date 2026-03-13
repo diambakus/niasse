@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -8,6 +8,7 @@ import { RouterModule } from '@angular/router';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
 import { UI_BASE_URL } from '../endpoints/enpoints-dev';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-drawer',
@@ -27,6 +28,8 @@ import { UI_BASE_URL } from '../endpoints/enpoints-dev';
 export class DrawerComponent implements OnInit {
   @Input() isOpened!: boolean;
   @Output() toggleMenu = new EventEmitter();
+  private auth = inject(AuthService);
+  currentUserRole = this.auth.role;
 
   constructor() { }
 
@@ -45,6 +48,7 @@ export class DrawerComponent implements OnInit {
     },
     { id: 2, link: `/units`, name: "Units", icon: "home" },
     { id: 3, link: `/organs`, name: "Organizations", icon: "home_work" },
-    { id: 4, link: '#', name: "Audit", icon: "content_paste_search" }
+    { id: 4, link: 'user/create', name: "User Management", icon: "group_add" },
+    { id: 5, link: '#', name: "Audit", icon: "content_paste_search" }
   ];
 }

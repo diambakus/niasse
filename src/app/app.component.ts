@@ -47,9 +47,9 @@ export class AppComponent implements OnInit, OnDestroy {
   private readonly _mobileQuery: MediaQueryList;
   private readonly _mobileQueryListener: () => void;
   public isSideNavOpened: boolean = false;
+  public auth = inject(AuthService)
 
   constructor(
-    public auth: AuthService,
     private translate: TranslateService,
     private titleService: Title
   ) {

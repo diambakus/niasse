@@ -3,10 +3,12 @@
     <app-topbar [titleInBar]="title"></app-topbar>
 
     <mat-sidenav-container class="app__ysidenav-container" autosize>
+      @if (auth.authenticated()) {
       <mat-sidenav #snav [mode]="isMobile() ? 'over' : 'side'" [fixedInViewport]="isMobile()" fixedTopGap="56"
         [opened]="!isSideNavOpened">
         <app-drawer (toggleMenu)="toggleMenu()" [isOpened]="isSideNavOpened"></app-drawer>
       </mat-sidenav>
+      }
 
       <mat-sidenav-content [style.margin-left.rem]="isSideNavOpened ? 9.5 : 3">
         <div class="app__content-container">
